@@ -11,8 +11,6 @@ class Shot extends Component {
     this.color = color;
   }
   newPos () {
-    console.log(`newpos shot ${this.x} ${this.y} ${this.angle}`);
-    //this.angle += 1 * Math.PI / 180;
     this.x += this.speed * Math.sin(this.angle);
     this.y -= this.speed * Math.cos(this.angle);
     console.log(`newpos shot ${this.x} ${this.y} ${this.angle}`);
@@ -22,10 +20,7 @@ class Shot extends Component {
   update () {
     console.log('update shot');
     ctx = myGameArea.context;
-
-    //ctx.rotate(this.angle);
     ctx.fillStyle = this.color;
-
     ctx.fillRect(this.x, this.y, this.width, this.height);
   }
 }

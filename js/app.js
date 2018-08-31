@@ -3,6 +3,7 @@ let spaceship;
 let ctx;
 const shots = [];
 const attackers = [];
+//const components = [];
 
 //////////////////////////////////////////
 document.addEventListener('DOMContentLoaded',() => {
@@ -14,7 +15,7 @@ document.addEventListener('DOMContentLoaded',() => {
 const startGame = () => {
   myGameArea.start();
   spaceship = new Spaceship(30, 30, 'white', myGameArea.canvas.width / 2, myGameArea.canvas.height / 2);
-  shots.push(new Astroid(40, 40, 'red', 160, 160, 0, 1));
+  attackers.push(new Astroid(40, 40, 'red', 160, 160, 1, 1));
 
 };
 //////////////////////////////////////////
@@ -22,6 +23,8 @@ const updateGameArea = () => {
   myGameArea.clear();
   spaceship.stopMove();
 
+
+  // User Interaction
   if (myGameArea.keys && myGameArea.keys[37])  spaceship.rotateLeft();
   if (myGameArea.keys && myGameArea.keys[39])  spaceship.rotateRight();
   if (myGameArea.keys && myGameArea.keys[38])  spaceship.speedUp();
@@ -29,14 +32,45 @@ const updateGameArea = () => {
   if (myGameArea.keys && myGameArea.keys[32])  shots.push(new Shot(10, 10, 'red', spaceship.x, spaceship.y, spaceship.speed+20, spaceship.angle));
 
 
+  // Game Logic
 
+
+  // Positional Logic
   spaceship.newPos();
-  spaceship.update();
-
-  shots.forEach(shot => {
-    shot.newPos();
-    shot.update();
+  shots.forEach(comp => {
+    comp.newPos();
   });
+  attackers.forEach(comp => {
+    comp.newPos();
+  });
+  // components.forEach(comp => {
+  //   comp.newPos();
+  // });
+
+  //Colision Detection
+  attackers.forEach(att => {
+    shots.forEach(shot => {
+      if (att.crashWith(shot)) {
+        myGameArea.stop();
+        console.log('Colision Detection');
+        return;
+      }
+    });
+  });
+
+
+  // Render
+  spaceship.update();
+  // components.forEach(comp => {
+  //   comp.update();
+  // });
+  shots.forEach(comp => {
+    comp.update();
+  });
+  attackers.forEach(comp => {
+    comp.update();
+  });
+
 };
 /////////////////////////////////////////////////
 const myGameArea = {
