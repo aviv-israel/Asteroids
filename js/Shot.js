@@ -1,20 +1,11 @@
+/* global Component,  */
 class Shot extends Component {
 
-  constructor(width, height, color, x, y, speed, angle) {
-    super();
-    this.width = width;
-    this.height = height;
-    this.x = x;
-    this.y = y;
-    this.speed = speed;
-    this.angle = angle;
+  constructor (width, height, color, x, y, velocity, angle) {
+    super(width, height, x, y, velocity, angle);
     this.color = color;
   }
-  newPos () {
-    this.x += this.speed * Math.sin(this.angle);
-    this.y -= this.speed * Math.cos(this.angle);
-    console.log(`newpos shot ${this.x} ${this.y} ${this.angle}`);
-  }
+
 
   //this function handle the drawing of the component.
   update () {

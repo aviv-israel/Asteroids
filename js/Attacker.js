@@ -1,6 +1,8 @@
+/* global Component, Attacker  */
+
 class Attacker extends Component{
-  constructor() {
-    super();
+  constructor(width, height, x, y, velocity, angle) {
+    super(width, height, x, y, velocity, angle);
 
   }
 }

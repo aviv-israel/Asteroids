@@ -2,13 +2,7 @@
 class Spaceship extends Component {
 
   constructor(width, height, color, x, y) {
-    super();
-    this.width = width;
-    this.height = height;
-    this.x = x;
-    this.y = y;
-    this.speed = 0;
-    this.angle = 0;
+    super(width, height, x, y, 0, 0);
     this.moveAngle = 0;
     this.color = color;
   }
@@ -16,18 +10,18 @@ class Spaceship extends Component {
   //this function define the new position
   newPos () {
     this.angle += this.moveAngle * Math.PI / 180;
-    this.x += this.speed * Math.sin(this.angle);
-    this.y -= this.speed * Math.cos(this.angle);
+    this.x += this.velocity * Math.sin(this.angle);
+    this.y -= this.velocity * Math.cos(this.angle);
   }
 
-  speedUp() {
-    console.log('moveup');
-    this.speed += 1;
+  // Increase Velocity
+  velocityInc() {
+    this.velocity += 1;
   }
 
-  speedDown() {
-    console.log('movedown');
-    this.speedY -= 1;
+  // Decrease Velocity
+  velocityDec() {
+    this.velocity -= 1;
   }
 
   rotateRight() {
@@ -40,26 +34,19 @@ class Spaceship extends Component {
   }
 
   stopMove() {
-    this.speed = 0;
+    this.velocity = 0;
     this.moveAngle = 0;
   }
 
-  //this function handle the drawing of the component.
+  // This function handle the drawing of the component.
   update () {
-    //console.log('update');
-    ctx = myGameArea.context;
-    // ctx.beginPath();
-    // ctx.moveTo(75, 50);
-    // ctx.lineTo(100, 75);
-    // ctx.lineTo(100, 25);
-    // ctx.fill();
 
+    ctx = myGameArea.context;
     ctx.save();
     ctx.translate(this.x, this.y);
     ctx.rotate(this.angle);
     ctx.fillStyle = this.color;
     ctx.fillRect(this.width / -2, this.height / -2, this.width, this.height);
     ctx.restore();
-    //ctx.fillRect(this.x, this.y, this.width, this.height);
   }
 }

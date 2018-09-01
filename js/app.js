@@ -27,9 +27,9 @@ const updateGameArea = () => {
   // User Interaction
   if (myGameArea.keys && myGameArea.keys[37])  spaceship.rotateLeft();
   if (myGameArea.keys && myGameArea.keys[39])  spaceship.rotateRight();
-  if (myGameArea.keys && myGameArea.keys[38])  spaceship.speedUp();
-  if (myGameArea.keys && myGameArea.keys[40])  spaceship.speedDown();
-  if (myGameArea.keys && myGameArea.keys[32])  shots.push(new Shot(10, 10, 'red', spaceship.x, spaceship.y, spaceship.speed+20, spaceship.angle));
+  if (myGameArea.keys && myGameArea.keys[38])  spaceship.velocityInc()();
+  if (myGameArea.keys && myGameArea.keys[40])  spaceship.velocityDec()();
+  if (myGameArea.keys && myGameArea.keys[32])  shots.push(new Shot(10, 10, 'red', spaceship.x, spaceship.y, spaceship.velocity + 20, spaceship.angle));
 
 
   // Game Logic
@@ -76,8 +76,8 @@ const updateGameArea = () => {
 const myGameArea = {
   canvas: document.createElement('canvas'),
   start: function() {
-    this.canvas.width = 960; //480;
-    this.canvas.height = 540; // 270;
+    this.canvas.width = 960;
+    this.canvas.height = 540;
     this.context = this.canvas.getContext('2d');
     document.body.insertBefore(this.canvas, document.body.childNodes[0]);
 
