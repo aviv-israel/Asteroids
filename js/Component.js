@@ -1,3 +1,4 @@
+/* global Component,GameArea  */
 let componentId = 0;
 class Component {
 
@@ -15,18 +16,20 @@ class Component {
     this.angle = angle;
   }
 
-  // static getId () { // how make private?
-  //   if (Component.id === undefined)
-  //     Component.id = 0;
-  //   else
-  //     Component.id++;
-  //   return Component.id;
-  // }
 
   // Calculate new position
   newPos () {
     this.x += this.velocity * Math.sin(this.angle);
     this.y -= this.velocity * Math.cos(this.angle);
-    console.log(`newpos ${this.id} ${this.x} ${this.y} ${this.angle}`);
+    //console.log(`newpos ${this.id} ${this.x} ${this.y} ${this.angle}`);
+  }
+
+  isOutOfGameArea () {
+    const marginGameArea = 10;
+    return (this.x < 0 - marginGameArea) ||
+      (this.y < 0 - marginGameArea) ||
+      (this.x > GameArea.canvas.width + marginGameArea) ||
+      (this.y > GameArea.canvas.height + marginGameArea);
+
   }
 }

@@ -1,106 +1,94 @@
-/* global Spaceship,Shot,Astroid  */
+/* global Spaceship,Shot,Attacker,Asteroid,GameArea  */
 let spaceship;
-let ctx;
-const shots = [];
-const attackers = [];
-//const components = [];
+let ctx; //// TODO: delete this
 
-//////////////////////////////////////////
+const components = new Map();
+
+
 document.addEventListener('DOMContentLoaded',() => {
   console.log('start game');
   startGame();
+  creatSoundList();
 });
-//////////////////////////////////////////
+
 
 const startGame = () => {
-  myGameArea.start();
-  spaceship = new Spaceship(30, 30, 'white', myGameArea.canvas.width / 2, myGameArea.canvas.height / 2);
-  attackers.push(new Astroid(40, 40, 'red', 160, 160, 1, 1));
+  GameArea.start();
+  spaceship = new Spaceship();
+  // const a = new Asteroid(40, 40, 'blue', 160, 160, 1, 1);
+  // components.set(a.id, a);
+  // const a = new Asteroid(GameArea.canvas.width/2, GameArea.canvas.height/3);
+  // console.dir(a);
+  //   components.set(a.id, a);
+  createAsteroidBelt();
 
 };
 //////////////////////////////////////////
 const updateGameArea = () => {
-  myGameArea.clear();
-  spaceship.stopMove();
+  GameArea.clear();
+  //spaceship.stopMove();
 
 
   // User Interaction
-  if (myGameArea.keys && myGameArea.keys[37])  spaceship.rotateLeft();
-  if (myGameArea.keys && myGameArea.keys[39])  spaceship.rotateRight();
-  if (myGameArea.keys && myGameArea.keys[38])  spaceship.velocityInc()();
-  if (myGameArea.keys && myGameArea.keys[40])  spaceship.velocityDec()();
-  if (myGameArea.keys && myGameArea.keys[32])  shots.push(new Shot(10, 10, 'red', spaceship.x, spaceship.y, spaceship.velocity + 20, spaceship.angle));
+  (GameArea.keys && GameArea.keys[39]) ? spaceship.rotateRight():
+    (GameArea.keys && GameArea.keys[37]) ? spaceship.rotateLeft() : spaceship.stopRotate();
+  (GameArea.keys && GameArea.keys[38]) ? spaceship.thrust() : spaceship.stopThrust();
+  //if (GameArea.keys && GameArea.keys[40])  spaceship.velocityDec();
+  if (GameArea.keys && GameArea.keys[32]) spaceship.fire(); //// TODO:
 
 
   // Game Logic
 
 
   // Positional Logic
+  spaceship.relocate();
   spaceship.newPos();
-  shots.forEach(comp => {
-    comp.newPos();
+  components.forEach( (c) => {
+    if (c instanceof Asteroid)
+      c.relocate();
+    if ((c instanceof Shot) && (c.isOutOfGameArea()))
+      components.delete(c.id);
+    c.newPos();
+
   });
-  attackers.forEach(comp => {
-    comp.newPos();
-  });
-  // components.forEach(comp => {
-  //   comp.newPos();
-  // });
+
 
   //Colision Detection
-  attackers.forEach(att => {
-    shots.forEach(shot => {
-      if (att.crashWith(shot)) {
-        myGameArea.stop();
-        console.log('Colision Detection');
-        return;
-      }
-    });
+  components.forEach( (cAsteroid) => {
+    if (cAsteroid instanceof Asteroid){
+      components.forEach( (cShoot) => {
+        if ((cShoot instanceof Shot) && (cAsteroid.crashWith(cShoot))) {
+          //GameArea.stop();
+          console.log('Colision Detection');
+          cAsteroid.brewingUp();
+
+        }
+      });
+    }
   });
+
 
 
   // Render
-  spaceship.update();
-  // components.forEach(comp => {
-  //   comp.update();
-  // });
-  shots.forEach(comp => {
-    comp.update();
-  });
-  attackers.forEach(comp => {
-    comp.update();
-  });
+  spaceship.updateDisplay();
+  components.forEach( (c) => c.updateDisplay() );
 
 };
-/////////////////////////////////////////////////
-const myGameArea = {
-  canvas: document.createElement('canvas'),
-  start: function() {
-    this.canvas.width = 960;
-    this.canvas.height = 540;
-    this.context = this.canvas.getContext('2d');
-    document.body.insertBefore(this.canvas, document.body.childNodes[0]);
 
-    // Run the updateGameArea() function every 20th millisecond (50 times per second - the recomended time for action game)
-    this.interval = setInterval(updateGameArea, 20);
+function createAsteroidBelt() {
+  let x, y;
+  for (let i = 0; i < 10; i++) {
+    console.log('createAsteroidBelt');
+    // random asteroid location (not touching spaceship)
+    do {
 
-    // Checks if a key is pressed, and set the key property of the myGameArea object to the key code. When the key is released, set the key property to false
-    window.addEventListener('keydown', (e) => {
-      myGameArea.keys = (myGameArea.keys || []);
-      myGameArea.keys[e.keyCode] = (e.type === 'keydown');
-    });
-
-    window.addEventListener('keyup', (e) => {
-      myGameArea.keys[e.keyCode] = (e.type === 'keydown');
-    });
-
-  },
-  stop: function() {
-    clearInterval(this.interval);
-  },
-  //clears the entire canvas.
-  clear: function() {
-    //console.log('clear');
-    this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+      x = Math.floor(Math.random() * GameArea.canvas.width);
+      y = Math.floor(Math.random() * GameArea.canvas.height);
+    } while (distBetweenPoints(spaceship.x, spaceship.y, x, y) < ROID_SIZE * 2 + spaceship.radius);
+    const a = new Asteroid(x, y);
+    components.set(a.id, a);
   }
-};
+}
+
+const distBetweenPoints = (x1, y1, x2, y2) =>
+  Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
