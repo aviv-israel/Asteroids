@@ -33,16 +33,15 @@ class Asteroid extends Attacker {
     // split the asteroid in two if necessary
     if (this.radius === Math.ceil(ROID_SIZE / 2)) { // large asteroid
       soundList.get('bangLarge').play();
-      stats.addPoint(ROID_L_PNT);
+      gamestat.addPoint(ROID_L_PNT);
       const as1 = new Asteroid (this.x, this.y, Math.ceil(ROID_SIZE / 4));
       components.set(as1.id,as1);
       const as2 = new Asteroid (this.x, this.y, Math.ceil(ROID_SIZE / 4));
       components.set(as2.id,as2);
 
     } else if (this.radius === Math.ceil(ROID_SIZE / 4)) { // medium asteroid
-      console.log('astroid split');
       soundList.get('bangMedium').play();
-      stats.addPoint(ROID_M_PNT);
+      gamestat.addPoint(ROID_M_PNT);
       const as1 = new Asteroid (this.x, this.y, Math.ceil(ROID_SIZE / 8));
       components.set(as1.id,as1);
       const as2 = new Asteroid (this.x, this.y, Math.ceil(ROID_SIZE / 8));
@@ -50,7 +49,7 @@ class Asteroid extends Attacker {
 
     } else {
       soundList.get('bangSmall').play();
-      stats.addPoint(ROID_S_PNT);
+      gamestat.addPoint(ROID_S_PNT);
     }
 
     // destroy the asteroid

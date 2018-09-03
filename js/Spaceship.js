@@ -1,25 +1,22 @@
 /* global Component,GameArea,ShotBySpaceship,components  */
-const friction = 0.3; // FIXME: // friction coefficient of space (0 = no friction, 1 = lots of friction)
-const acceleration = 30; // FIXME: // acceleration of the ship in pixels per second per second
-const rotateSpeed = 360; // FIXME: // turn speed in degrees per second
-const SHIP_BLINK_DUR = 0.1; // duration in seconds of a single blink during ship's invisibility
-const SHIP_EXPLODE_DUR = 0.3; // duration of the ship's explosion in seconds
-const SHIP_INV_DUR = 3; // duration of the ship's invisibility in seconds
-const SHIP_SIZE = 30; // ship height in pixels
-const SHIP_THRUST = 5; // acceleration of the ship in pixels per second per second
-const SHIP_TURN_SPD = 360; // turn speed in degrees per second
-const SHOT_MAX = 10; // maximum number of lasers on screen at once
-const SHIP_DEF_COL = '#EDF2F4' //Ship def color
-const SHIP_DEBUG_MODE = false; // Show bounds and logs
+const SHIP_FRICTION = 0.3, // friction coefficient of space (0 = no friction, 1 = lots of friction)
+  SHIP_ACCEL = 30,  // acceleration of the ship in pixels per second per second
+  SHIP_ROT_SPEED = 360,  // turn speed in degrees per second
+  SHIP_BLINK_DUR = 0.1, // duration in seconds of a single blink during ship's invisibility
+  SHIP_EXPLODE_DUR = 0.3, // duration of the ship's explosion in seconds
+  SHIP_INV_DUR = 1, // duration of the ship's invisibility in seconds
+  SHIP_SIZE = 30, // ship height in pixels
+  SHOT_MAX = 10, // maximum number of lasers on screen at once
+  SHIP_DEF_COL = '#EDF2F4', //Ship def color
+  SHIP_DEBUG_MODE = false; // Show bounds and logs
 
 
 class Spaceship extends Component {
 
   constructor() {
-    const Size = 30;
     const angle = 90 / 180 * Math.PI;
-    super(Size, Size, GameArea.canvas.width / 2, GameArea.canvas.height / 2, 0, angle);
-    this.radius = Size /2; // Radius
+    super(SHIP_SIZE, SHIP_SIZE, GameArea.canvas.width / 2, GameArea.canvas.height / 2, 0, angle);
+    this.radius = SHIP_SIZE /2; // Radius
     this.moveAngle = 0; //rot
     this.color = SHIP_DEF_COL;
     this.isThrusting = false;
@@ -27,25 +24,35 @@ class Spaceship extends Component {
     this.thrust.y = 0;
     this.isCanShot = true;
     this.blinkNum = Math.ceil(SHIP_INV_DUR / SHIP_BLINK_DUR);
+    this.blinkTime = Math.ceil(SHIP_BLINK_DUR * GameArea.FPS);
     this.explodeTime = 0;
+    this.isLive = true;
   }
 
   //this function define the new position
   newPos () {
-    this.angle += this.moveAngle;
-    console.log('this.angle' + this.angle);
-    this.x += this.thrust.x;
-    this.y += this.thrust.y;
+    if (this.isExploding()){
+      // reduce the explode time
+      this.explodeTime--;
+
+      // reset the ship after the explosion has finished
+      if (this.explodeTime === 0) {
+        gamestat.decriseLive();
+      }
+    } else {
+      this.angle += this.moveAngle;
+      this.x += this.thrust.x;
+      this.y += this.thrust.y;
+    }
+
   }
 
   rotateRight () {
-    this.moveAngle = -rotateSpeed / 180 * Math.PI / GameArea.FPS;
-    console.log('rotate right' + this.moveAngle);
+    this.moveAngle = -SHIP_ROT_SPEED / 180 * Math.PI / GameArea.FPS;
   }
 
   rotateLeft () {
-    this.moveAngle = rotateSpeed / 180 * Math.PI / GameArea.FPS;
-    console.log('rotate left' + this.moveAngle);
+    this.moveAngle = SHIP_ROT_SPEED / 180 * Math.PI / GameArea.FPS;
   }
 
   stopRotate () {
@@ -54,24 +61,23 @@ class Spaceship extends Component {
 
   thrust () {
     this.isThrusting = true;
-    this.thrust.x += acceleration * Math.cos(this.angle) / GameArea.FPS;
-    this.thrust.y -= acceleration * Math.sin(this.angle) / GameArea.FPS;
+    this.thrust.x += SHIP_ACCEL * Math.cos(this.angle) / GameArea.FPS;
+    this.thrust.y -= SHIP_ACCEL * Math.sin(this.angle) / GameArea.FPS;
     soundList.get('thrust').play();
     //this.velocity = acceleration / GameArea.FPS;
   }
 
   stopThrust () {
-    // apply friction (slow the ship down when not thrusting)
+    // apply FRICTION (slow the ship down when not thrusting)
     this.isThrusting = false;
-    this.thrust.x -= friction * this.thrust.x / GameArea.FPS;
-    this.thrust.y -= friction * this.thrust.y / GameArea.FPS;
+    this.thrust.x -= SHIP_FRICTION * this.thrust.x / GameArea.FPS;
+    this.thrust.y -= SHIP_FRICTION * this.thrust.y / GameArea.FPS;
     //this.velocity = acceleration / GameArea.FPS;
   }
 
   fire () {
     // create the laser object
     if (this.isCanShot && this.sumShotExist() < SHOT_MAX) {
-      console.log('fire');
       const s = new ShotBySpaceship();
       components.set(s.id, s);
     }
@@ -131,6 +137,14 @@ class Spaceship extends Component {
     GameArea.ctx.stroke();
   }
 
+  isCollision (roidx, roidy, roidr) {
+    return  (!this.isExploding() &&
+      this.blinkNum === 0 &&
+      this.isLive &&
+      distBetweenPoints(this.x, this.y, roidx, roidy) < this.radius + roidr);
+  }
+
+
   updateDisplaySpaceship () {
     Spaceship.draw(this.x, this.y, this.angle, this.radius, this.color);
 
@@ -172,36 +186,41 @@ class Spaceship extends Component {
 
   }
 
+  isBlinkOn () {
+    return this.blinkNum % 2 === 0;
+  }
+
+  isExploding () {
+    return (this.explodeTime > 0);
+  }
+
   // This function handle the drawing of the component.
   updateDisplay() {
 
-
-    let blinkOn = this.blinkNum % 2 === 0;
-    let exploding = this.explodeTime > 0;
-
     // draw the spaceship
-    if (!exploding) {
-        if (blinkOn)
-            this.updateDisplaySpaceship();
-        // handle blinking
-        if (this.blinkNum > 0) {
+    if (!this.isExploding()) {
+      console.log('isnot expoding')
+      if (this.isBlinkOn() && this.isLive) {
+        this.updateDisplaySpaceship()
+      }
 
-            // reduce the blink time
-            this.blinkTime--;
+      // handle blinking
+      if (this.blinkNum > 0) {
+        // reduce the blink time
+        this.blinkTime--;
 
-            // reduce the blink num
-            if (this.blinkTime === 0) {
-                this.blinkTime = Math.ceil(SHIP_BLINK_DUR * GameArea.FPS);
-                this.blinkNum--;
-            }
+        // reduce the blink num
+        if (this.blinkTime === 0) {
+          this.blinkTime = Math.ceil(SHIP_BLINK_DUR * GameArea.FPS);
+          this.blinkNum--;
         }
-
-    }else {
-        // draw the explosion (concentric circles of different colours)
-        ctx.fillStyle = 'darkred';
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.radius * 1.7, 0, Math.PI * 2, false);
-        ctx.fill();
+      }
+    } else {
+      // draw the explosion (concentric circles of different colours)
+      GameArea.ctx.fillStyle = 'darkred';
+      GameArea.ctx.beginPath();
+      GameArea.ctx.arc(this.x, this.y, this.radius * 1.7, 0, Math.PI * 2, false);
+      GameArea.ctx.fill();
         // ctx.fillStyle = 'red';
         // ctx.beginPath();
         // ctx.arc(this.x, this.y, this.radius * 1.4, 0, Math.PI * 2, false);
@@ -221,7 +240,7 @@ class Spaceship extends Component {
     }
 
     // draw the thruster
-    if (this.isThrusting && !exploding && blinkOn) {
+    if (this.isThrusting && !this.isExploding() && this.isBlinkOn) {
       this.updateDisplayThruster();
     }
 

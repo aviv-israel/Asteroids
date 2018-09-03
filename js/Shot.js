@@ -1,7 +1,7 @@
 /* global Component,GameArea  */
-const SHOT_DIST = 0.6; // max distance laser can travel as fraction of screen width
-const SHOT_EXPLODE_DUR = 0.001; // duration of the lasers' explosion in seconds
-const SHOT_VEL = 20; // velocity of lasers in pixels per second
+const SHOT_DIST = 0.6, // max distance laser can travel as fraction of screen width
+  SHOT_EXPLODE_DUR = 0.001, // duration of the lasers' explosion in seconds
+  SHOT_VEL = 20; // velocity of lasers in pixels per second
 
 class Shot extends Component {
 
@@ -25,7 +25,6 @@ class Shot extends Component {
 
   //this function handle the drawing of the component.
   updateDisplay () {
-    console.log('update shot');
     GameArea.ctx.fillStyle = this.color;
     GameArea.ctx.fillRect(this.x, this.y, this.width, this.height);
   }
@@ -81,5 +80,48 @@ class ShotBySpaceship extends Shot {
     else
       this.drawEplosion();
   }
+
+
+
+  //
+  // //            // move the lasers
+  //           for (var i = ship.lasers.length - 1; i >= 0; i--) {
+  //
+  //               // check distance travelled
+  //               if (ship.lasers[i].dist > LASER_DIST * canv.width) {
+  //                   ship.lasers.splice(i, 1);
+  //                   continue;
+  //               }
+  //
+  //               // handle the explosion
+  //               if (ship.lasers[i].explodeTime > 0) {
+  //                   ship.lasers[i].explodeTime--;
+  //
+  //                   // destroy the laser after the duration is up
+  //                   if (ship.lasers[i].explodeTime == 0) {
+  //                       ship.lasers.splice(i, 1);
+  //                       continue;
+  //                   }
+  //               } else {
+  //                   // move the laser
+  //                   ship.lasers[i].x += ship.lasers[i].xv;
+  //                   ship.lasers[i].y += ship.lasers[i].yv;
+  //
+  //                   // calculate the distance travelled
+  //                   ship.lasers[i].dist += Math.sqrt(Math.pow(ship.lasers[i].xv, 2) + Math.pow(ship.lasers[i].yv, 2));
+  //               }
+  //
+  //               // handle edge of screen
+  //               if (ship.lasers[i].x < 0) {
+  //                   ship.lasers[i].x = canv.width;
+  //               } else if (ship.lasers[i].x > canv.width) {
+  //                   ship.lasers[i].x = 0;
+  //               }
+  //               if (ship.lasers[i].y < 0) {
+  //                   ship.lasers[i].y = canv.height;
+  //               } else if (ship.lasers[i].y > canv.height) {
+  //                   ship.lasers[i].y = 0;
+  //               }
+  //           }
 
 }

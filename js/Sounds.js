@@ -1,30 +1,3 @@
-class Sound {
-  constructor(src) {
-    this.Sound = document.createElement('audio');
-    this.Sound.src = src;
-    this.Sound.setAttribute('preload', 'auto');
-    this.Sound.setAttribute('controls', 'none');
-    this.Sound.style.display = 'none';
-    document.body.appendChild(this.Sound);
-  }
-
-  play () {
-    this.Sound.play();
-  }
-
-  stop () {
-    this.Sound.pause();
-  }
-
-}
-
-const creatSoundList = () => {
-  audioList.forEach( (value, key) => {
-    soundList.set(key, new Sound(value));
-  });
-};
-
-const soundList = new Map();
 const audioList = new Map([
   ['bangLarge', 'assets/sounds/bangLarge.wav'],
   ['bangMedium', 'assets/sounds/bangMedium.wav'],
@@ -36,4 +9,31 @@ const audioList = new Map([
   ['saucerBig',      'assets/sounds/saucerBig.wav'],
   ['saucerSmall',      'assets/sounds/saucerSmall.wav'],
   ['thrust',      'assets/sounds/thrust.wav']
-]);
+]); // Audio to loaded
+const soundList = new Map();
+
+class Sound {
+  constructor(src) {
+    this.Sound = document.createElement('audio');
+    this.Sound.src = src;
+    this.Sound.setAttribute('preload', 'auto');
+    this.Sound.setAttribute('controls', 'none');
+    this.Sound.style.display = 'none';
+    document.body.appendChild(this.Sound);
+  }
+
+  static creatSoundList () {
+    audioList.forEach( (value, key) => {
+      soundList.set(key, new Sound(value));
+    });
+  }
+
+  play () {
+    this.Sound.play();
+  }
+
+  stop () {
+    this.Sound.pause();
+  }
+
+}

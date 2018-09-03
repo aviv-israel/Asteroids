@@ -17,6 +17,15 @@ class GameStats {
       new Error('fdf');//throw new Error('The number of points must be greater than 0');
   }
 
+  decriseLive () {
+    --this._lives;
+    if (this._lives === 0) {
+      gameOver();
+    } else {
+      spaceship = new Spaceship();
+    }
+  }
+
   checkExtraLive () {
     if (!this._isAddedLive && this._score > SCORE_EXSTRA_SPACESHIP){
       ++this._lives;
@@ -29,7 +38,9 @@ class GameStats {
     GameArea.ctx.font = `${FONT_SIZE} ${FONT_NAME}`;
     GameArea.ctx.fillStyle = 'white';
     //GameArea.ctx.textAlign = 'center';
-    GameArea.ctx.fillText(this._score, GameArea.canvas.width * 0.07, GameArea.canvas.height * 0.07);
+    GameArea.ctx.fillText(this._score === 0 ? '00' : this._score,
+      GameArea.canvas.width * 0.07,
+      GameArea.canvas.height * 0.07);
   }
 
   upadateDisplayLive () {

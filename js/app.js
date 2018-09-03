@@ -1,7 +1,6 @@
 /* global Spaceship,Shot,Attacker,Asteroid,GameArea  */
 const COLOR_WHITE = '#EDF2F4';
-let spaceship,stats;
-let ctx; //// TODO: delete this
+let spaceship,gamestat;
 
 const components = new Map();
 
@@ -14,8 +13,8 @@ document.addEventListener('DOMContentLoaded',() => {
 
 const startGame = () => {
   GameArea.start();
-  creatSoundList();
-  stats = new GameStats();
+  Sound.creatSoundList();
+  gamestat = new GameStats();
   spaceship = new Spaceship();
   createAsteroidBelt();
 
@@ -62,6 +61,11 @@ const updateGameArea = () => {
       });
 
       // check if astroid hit the spaceship
+      if (spaceship.isCollision(cAsteroid.x, cAsteroid.y, cAsteroid.radius)){
+        console.log('astroid hit the spaceship');
+        cAsteroid.brewingUp();
+        spaceship.explode();
+      }
 
     }
   });
@@ -70,15 +74,18 @@ const updateGameArea = () => {
 
   // Render
   spaceship.updateDisplay();
-  stats.updateDisplay();
+  gamestat.updateDisplay();
   components.forEach( (c) => c.updateDisplay() );
 
+};
+
+const gameOver = () => {
+  console.log('game over');
 };
 
 function createAsteroidBelt() {
   let x, y,r;
   for (let i = 0; i < 10; i++) {
-    console.log('createAsteroidBelt');
     // random asteroid location (not touching spaceship)
     do {
 
