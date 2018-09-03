@@ -32,9 +32,10 @@ const updateGameArea = () => {
   // User Interaction
   (GameArea.keys && GameArea.keys[39]) ? spaceship.rotateRight():
     (GameArea.keys && GameArea.keys[37]) ? spaceship.rotateLeft() : spaceship.stopRotate();
+
   (GameArea.keys && GameArea.keys[38]) ? spaceship.thrust() : spaceship.stopThrust();
   //if (GameArea.keys && GameArea.keys[40])  spaceship.velocityDec();
-  if (GameArea.keys && GameArea.keys[32]) spaceship.fire(); //// TODO:
+  (GameArea.keys && GameArea.keys[32]) ? spaceship.fire() : spaceship.allowFire();
 
 
   // Game Logic
@@ -46,7 +47,7 @@ const updateGameArea = () => {
   components.forEach( (c) => {
     if (c instanceof Asteroid)
       c.relocate();
-    if ((c instanceof Shot) && (c.isOutOfGameArea()))
+    if ((c instanceof Shot) && (c.isOutOfGameArea())) // Fix
       components.delete(c.id);
     c.newPos();
 
@@ -57,10 +58,17 @@ const updateGameArea = () => {
   components.forEach( (cAsteroid) => {
     if (cAsteroid instanceof Asteroid){
       components.forEach( (cShoot) => {
-        if ((cShoot instanceof Shot) && (cAsteroid.crashWith(cShoot))) {
-          //GameArea.stop();
-          console.log('Colision Detection');
-          cAsteroid.brewingUp();
+        if (cShoot instanceof Shot)  {
+            if (cShoot.explodeTime === 0 && distBetweenPoints(cAsteroid.x, cAsteroid.y, cShoot.x, cShoot.y) < cAsteroid.radius) {
+                console.log('Colision Detection');
+                // destroy the asteroid and activate the laser explosion
+                cAsteroid.brewingUp(); //destroyAsteroid(i);
+                cShoot.explode();//ship.lasers[j].explodeTime = Math.ceil(LASER_EXPLODE_DUR * FPS);
+            }
+
+
+
+
 
         }
       });
@@ -76,7 +84,7 @@ const updateGameArea = () => {
 };
 
 function createAsteroidBelt() {
-  let x, y;
+  let x, y,r;
   for (let i = 0; i < 10; i++) {
     console.log('createAsteroidBelt');
     // random asteroid location (not touching spaceship)
@@ -84,8 +92,9 @@ function createAsteroidBelt() {
 
       x = Math.floor(Math.random() * GameArea.canvas.width);
       y = Math.floor(Math.random() * GameArea.canvas.height);
+        r = Math.ceil(ROID_SIZE / 2);//r = Math.ceil(ROID_SIZE / 2);
     } while (distBetweenPoints(spaceship.x, spaceship.y, x, y) < ROID_SIZE * 2 + spaceship.radius);
-    const a = new Asteroid(x, y);
+    const a = new Asteroid(x, y, r);
     components.set(a.id, a);
   }
 }

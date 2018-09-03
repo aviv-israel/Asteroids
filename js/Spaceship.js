@@ -1,8 +1,14 @@
 /* global Component,GameArea,ShotBySpaceship,components  */
 const friction = 0.7; // FIXME: // friction coefficient of space (0 = no friction, 1 = lots of friction)
-const acceleration = 5; // FIXME: // acceleration of the ship in pixels per second per second
+const acceleration = 15; // FIXME: // acceleration of the ship in pixels per second per second
 const rotateSpeed = 360; // FIXME: // turn speed in degrees per second
-
+const SHIP_BLINK_DUR = 0.1; // duration in seconds of a single blink during ship's invisibility
+const SHIP_EXPLODE_DUR = 0.3; // duration of the ship's explosion in seconds
+const SHIP_INV_DUR = 3; // duration of the ship's invisibility in seconds
+const SHIP_SIZE = 30; // ship height in pixels
+const SHIP_THRUST = 5; // acceleration of the ship in pixels per second per second
+const SHIP_TURN_SPD = 360; // turn speed in degrees per second
+const SHOT_MAX = 10; // maximum number of lasers on screen at once
 
 class Spaceship extends Component {
 
@@ -16,6 +22,9 @@ class Spaceship extends Component {
     this.isThrusting = false;
     this.thrust.x = 0;
     this.thrust.y = 0;
+    this.isCanShot = true;
+    this.blinkNum = Math.ceil(SHIP_INV_DUR / SHIP_BLINK_DUR);
+    this.explodeTime = 0;
   }
 
   //this function define the new position
@@ -44,8 +53,10 @@ class Spaceship extends Component {
     this.isThrusting = true;
     this.thrust.x += acceleration * Math.cos(this.angle) / GameArea.FPS;
     this.thrust.y -= acceleration * Math.sin(this.angle) / GameArea.FPS;
+    soundList.get('thrust').play();
     //this.velocity = acceleration / GameArea.FPS;
   }
+
   stopThrust () {
     // apply friction (slow the ship down when not thrusting)
     this.isThrusting = false;
@@ -55,10 +66,34 @@ class Spaceship extends Component {
   }
 
   fire () {
-    const s = new ShotBySpaceship();
-    components.set(s.id, s);
+    // create the laser object
+    if (this.isCanShot && this.sumShotExist() < SHOT_MAX) {
+      console.log('fire');
+        const s = new ShotBySpaceship();
+        components.set(s.id, s);
+    }
+
+      // prevent further shooting
+      this.isCanShot = false;
+
   }
 
+  allowFire () {
+    this.isCanShot = true;
+  }
+
+  sumShotExist () {
+    let sum = 0;
+      components.forEach( (c) => {
+        if (c instanceof ShotBySpaceship)
+          ++sum;
+      });
+      return sum;
+  }
+
+  explode () {
+    this.explodeTime = Math.ceil(SHIP_EXPLODE_DUR * GameArea.FPS);
+  }
   relocate (){
     // handle edge of screen
     if (this.x < 0 - this.radius)
@@ -91,9 +126,20 @@ class Spaceship extends Component {
     );
     GameArea.ctx.closePath();
     GameArea.ctx.stroke();
+
+    // show ship's collision circle
+
+    GameArea.ctx.strokeStyle = 'lime';
+    GameArea.ctx.beginPath();
+    GameArea.ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
+    GameArea.ctx.stroke();
+
   }
 
   updateDisplayThruster () {
+
+
+
     GameArea.ctx.fillStyle = 'white';
     GameArea.ctx.strokeStyle = 'yellow';
     GameArea.ctx.lineWidth = this.radius / 5;
@@ -113,16 +159,63 @@ class Spaceship extends Component {
     GameArea.ctx.closePath();
     GameArea.ctx.fill();
     GameArea.ctx.stroke();
+
+
+
+
+
   }
 
   // This function handle the drawing of the component.
   updateDisplay() {
 
+
+    let blinkOn = this.blinkNum % 2 === 0;
+    let exploding = this.explodeTime > 0;
+
     // draw the spaceship
-    this.updateDisplaySpaceship();
+    if (!exploding) {
+        if (blinkOn)
+            this.updateDisplaySpaceship();
+        // handle blinking
+        if (this.blinkNum > 0) {
+
+            // reduce the blink time
+            this.blinkTime--;
+
+            // reduce the blink num
+            if (this.blinkTime === 0) {
+                this.blinkTime = Math.ceil(SHIP_BLINK_DUR * GameArea.FPS);
+                this.blinkNum--;
+            }
+        }
+
+    }else {
+        // draw the explosion (concentric circles of different colours)
+        ctx.fillStyle = 'darkred';
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius * 1.7, 0, Math.PI * 2, false);
+        ctx.fill();
+        // ctx.fillStyle = 'red';
+        // ctx.beginPath();
+        // ctx.arc(this.x, this.y, this.radius * 1.4, 0, Math.PI * 2, false);
+        // ctx.fill();
+        // ctx.fillStyle = "orange";
+        // ctx.beginPath();
+        // ctx.arc(this.x, this.y, this.radius * 1.1, 0, Math.PI * 2, false);
+        // ctx.fill();
+        // ctx.fillStyle = "yellow";
+        // ctx.beginPath();
+        // ctx.arc(this.x, this.y, this.radius * 0.8, 0, Math.PI * 2, false);
+        // ctx.fill();
+        // ctx.fillStyle = "white";
+        // ctx.beginPath();
+        // ctx.arc(this.x, this.y, this.radius * 0.5, 0, Math.PI * 2, false);
+        // ctx.fill();
+    }
 
     // draw the thruster
-    if (this.isThrusting) {
+    if (this.isThrusting && !exploding && blinkOn) {
       this.updateDisplayThruster();
     }
     //centre dot (optional)

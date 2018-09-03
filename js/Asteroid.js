@@ -7,11 +7,11 @@ const ROID_VERT = 10; // average number of vertices on each asteroid
 
 class Asteroid extends Attacker {
 
-  constructor (x, y) {
+  constructor (x, y, r) {
     let angle = Math.random() * Math.PI * 2;
     super(ROID_SIZE / 2,ROID_SIZE / 2,x,y,0,angle);
     this.offs = [];
-    this.radius = ROID_SIZE / 2;
+    this.radius = r; //ROID_SIZE / 2;
     this.vert = Math.floor(Math.random() * (ROID_VERT + 1) + ROID_VERT / 2);
     this.xv = Math.random() * ROID_SPD / GameArea.FPS * (Math.random() < 0.5 ? 1 : -1);
     this.yv = Math.random() * ROID_SPD / GameArea.FPS * (Math.random() < 0.5 ? 1 : -1);
@@ -23,34 +23,61 @@ class Asteroid extends Attacker {
   }
 
   brewingUp () {
-    if (this.mass > 20) {
-      const as1 = new Asteroid (this.width , this.height / 2, this.color, this.x, this.y, this.velocity+4 , this.angle + Math.PI / 180);
-      components.set(as1.id,as1);
-      const as2 = new Asteroid (this.width , this.height / 2, this.color, this.x, this.y, this.velocity+3, this.angle - Math.PI / 180);
-      components.set(as2.id,as2);
+
+    // split the asteroid in two if necessary
+    if (this.radius === Math.ceil(ROID_SIZE / 2)) { // large asteroid
+        console.log('astroid split');
+        soundList.get('bangLarge').play();
+        const as1 = new Asteroid (this.x, this.y, Math.ceil(ROID_SIZE / 4));
+        components.set(as1.id,as1);
+        const as2 = new Asteroid (this.x, this.y, Math.ceil(ROID_SIZE / 4));
+        components.set(as2.id,as2);
+    } else if (this.radius === Math.ceil(ROID_SIZE / 4)) { // medium asteroid
+        console.log('astroid split');
+        soundList.get('bangMedium').play();
+        const as1 = new Asteroid (this.x, this.y, Math.ceil(ROID_SIZE / 8));
+        components.set(as1.id,as1);
+        const as2 = new Asteroid (this.x, this.y, Math.ceil(ROID_SIZE / 8));
+        components.set(as2.id,as2);
+    } else {
+        soundList.get('bangSmall').play();
     }
+
+    // destroy the asteroid
     components.delete(this.id);
 
-  }
 
 
 
-  crashWith (otherobj) { //// FIXME: to add is before name function
-    const myLeft  = this.x,
-      myRight     = this.x + (this.width),
-      myTop       = this.y,
-      myBottom    = this.y + (this.height),
-      otherLeft   = otherobj.x,
-      otherRight  = otherobj.x + (otherobj.width),
-      otherTop    = otherobj.y,
-      otherBottom = otherobj.y + (otherobj.height);
 
-    return !((myBottom < otherTop) ||
-           (myTop > otherBottom) ||
-           (myRight < otherLeft) ||
-           (myLeft > otherRight));
+    // if (this.mass > 20) {
+    //   const as1 = new Asteroid (this.width , this.height / 2, this.color, this.x, this.y, this.velocity+4 , this.angle + Math.PI / 180);
+    //   components.set(as1.id,as1);
+    //   const as2 = new Asteroid (this.width , this.height / 2, this.color, this.x, this.y, this.velocity+3, this.angle - Math.PI / 180);
+    //   components.set(as2.id,as2);
+    // }
+    // components.delete(this.id);
 
   }
+
+
+
+  // crashWith (otherobj) { //// FIXME: to add is before name function
+  //   const myLeft  = this.x,
+  //     myRight     = this.x + (this.width),
+  //     myTop       = this.y,
+  //     myBottom    = this.y + (this.height),
+  //     otherLeft   = otherobj.x,
+  //     otherRight  = otherobj.x + (otherobj.width),
+  //     otherTop    = otherobj.y,
+  //     otherBottom = otherobj.y + (otherobj.height);
+  //
+  //   return !((myBottom < otherTop) ||
+  //          (myTop > otherBottom) ||
+  //          (myRight < otherLeft) ||
+  //          (myLeft > otherRight));
+  //
+  // }
 
   relocate () {
     // handle asteroid edge of screen
@@ -94,9 +121,18 @@ class Asteroid extends Attacker {
     GameArea.ctx.closePath();
     GameArea.ctx.stroke();
 
-    //centre dot (optional)
+    //centre dot
     GameArea.ctx.fillStyle = 'red';
     GameArea.ctx.fillRect(this.x - 1, this.y - 1, 2, 2);
+
+
+      // show asteroid's collision circle
+
+    GameArea.ctx.strokeStyle = 'lime';
+    GameArea.ctx.beginPath();
+    GameArea.ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
+    GameArea.ctx.stroke();
+
 
   }
 
