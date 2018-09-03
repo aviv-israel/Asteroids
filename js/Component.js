@@ -7,8 +7,7 @@ class Component {
 
   constructor (width, height, x, y, velocity, angle) {
     this.id = componentId++;
-    this.isAlive = true;
-    this.width = width;
+    this.width = width; //to delete
     this.height = height;
     this.x = x;
     this.y = y;

@@ -1,6 +1,6 @@
 /* global Component,GameArea,ShotBySpaceship,components  */
-const friction = 0.7; // FIXME: // friction coefficient of space (0 = no friction, 1 = lots of friction)
-const acceleration = 15; // FIXME: // acceleration of the ship in pixels per second per second
+const friction = 0.2; // FIXME: // friction coefficient of space (0 = no friction, 1 = lots of friction)
+const acceleration = 30; // FIXME: // acceleration of the ship in pixels per second per second
 const rotateSpeed = 360; // FIXME: // turn speed in degrees per second
 const SHIP_BLINK_DUR = 0.1; // duration in seconds of a single blink during ship's invisibility
 const SHIP_EXPLODE_DUR = 0.3; // duration of the ship's explosion in seconds

@@ -2,10 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fc39de07-8eba-4cc4-bdf2-0ecbd40c953a" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/js/Asteroid.js" afterPath="$PROJECT_DIR$/js/Asteroid.js" />
-      <change beforePath="$PROJECT_DIR$/js/Shot.js" afterPath="$PROJECT_DIR$/js/Shot.js" />
+      <change beforePath="$PROJECT_DIR$/js/Component.js" afterPath="$PROJECT_DIR$/js/Component.js" />
       <change beforePath="$PROJECT_DIR$/js/Spaceship.js" afterPath="$PROJECT_DIR$/js/Spaceship.js" />
-      <change beforePath="$PROJECT_DIR$/js/app.js" afterPath="$PROJECT_DIR$/js/app.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -71,11 +69,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Component.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Component.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/Component.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="285">
-              <caret line="19" column="0" lean-forward="false" selection-start-line="19" selection-start-column="0" selection-end-line="24" selection-end-column="3" />
+            <state relative-caret-position="135">
+              <caret line="9" column="35" lean-forward="false" selection-start-line="9" selection-start-column="35" selection-end-line="9" selection-end-column="35" />
               <folding />
             </state>
           </provider>
@@ -91,11 +89,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Spaceship.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Spaceship.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/Spaceship.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="428">
-              <caret line="55" column="25" lean-forward="false" selection-start-line="55" selection-start-column="25" selection-end-line="55" selection-end-column="25" />
+            <state relative-caret-position="-997">
+              <caret line="2" column="23" lean-forward="false" selection-start-line="2" selection-start-column="23" selection-end-line="2" selection-end-column="23" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
               </folding>
@@ -137,12 +135,12 @@
         <option value="$PROJECT_DIR$/js/Tools.js" />
         <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/js/ComponentFactory.js" />
-        <option value="$PROJECT_DIR$/js/Component.js" />
         <option value="$PROJECT_DIR$/js/Astroid.js" />
         <option value="$PROJECT_DIR$/js/app.js" />
         <option value="$PROJECT_DIR$/js/Shot.js" />
         <option value="$PROJECT_DIR$/js/Asteroid.js" />
         <option value="$PROJECT_DIR$/js/Spaceship.js" />
+        <option value="$PROJECT_DIR$/js/Component.js" />
       </list>
     </option>
   </component>
@@ -264,12 +262,12 @@
       <updated>1535791034051</updated>
       <workItem from="1535791036610" duration="2366000" />
       <workItem from="1535804751841" duration="12408000" />
-      <workItem from="1535901759184" duration="11526000" />
+      <workItem from="1535901759184" duration="12399000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="26300000" />
+    <option name="totallyTimeSpent" value="27173000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1680" height="969" extended-state="6" />
@@ -518,14 +516,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/Component.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="19" column="0" lean-forward="false" selection-start-line="19" selection-start-column="0" selection-end-line="24" selection-end-column="3" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/js/GameArea.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="345">
@@ -572,11 +562,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/Spaceship.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="428">
-          <caret line="55" column="25" lean-forward="false" selection-start-line="55" selection-start-column="25" selection-end-line="55" selection-end-column="25" />
+        <state relative-caret-position="-997">
+          <caret line="2" column="23" lean-forward="false" selection-start-line="2" selection-start-column="23" selection-end-line="2" selection-end-column="23" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/Component.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="9" column="35" lean-forward="false" selection-start-line="9" selection-start-column="35" selection-end-line="9" selection-end-column="35" />
+          <folding />
         </state>
       </provider>
     </entry>
