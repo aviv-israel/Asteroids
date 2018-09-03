@@ -1,5 +1,5 @@
 /* global Component,GameArea,ShotBySpaceship,components  */
-const friction = 0.2; // FIXME: // friction coefficient of space (0 = no friction, 1 = lots of friction)
+const friction = 0.3; // FIXME: // friction coefficient of space (0 = no friction, 1 = lots of friction)
 const acceleration = 30; // FIXME: // acceleration of the ship in pixels per second per second
 const rotateSpeed = 360; // FIXME: // turn speed in degrees per second
 const SHIP_BLINK_DUR = 0.1; // duration in seconds of a single blink during ship's invisibility
@@ -9,7 +9,8 @@ const SHIP_SIZE = 30; // ship height in pixels
 const SHIP_THRUST = 5; // acceleration of the ship in pixels per second per second
 const SHIP_TURN_SPD = 360; // turn speed in degrees per second
 const SHOT_MAX = 10; // maximum number of lasers on screen at once
-const DEBUG_MODE = true; // Show bounds and logs
+const SHIP_DEF_COL = '#EDF2F4' //Ship def color
+const SHIP_DEBUG_MODE = false; // Show bounds and logs
 
 
 class Spaceship extends Component {
@@ -20,7 +21,7 @@ class Spaceship extends Component {
     super(Size, Size, GameArea.canvas.width / 2, GameArea.canvas.height / 2, 0, angle);
     this.radius = Size /2; // Radius
     this.moveAngle = 0; //rot
-    this.color = '#fff';
+    this.color = SHIP_DEF_COL;
     this.isThrusting = false;
     this.thrust.x = 0;
     this.thrust.y = 0;
@@ -71,12 +72,12 @@ class Spaceship extends Component {
     // create the laser object
     if (this.isCanShot && this.sumShotExist() < SHOT_MAX) {
       console.log('fire');
-        const s = new ShotBySpaceship();
-        components.set(s.id, s);
+      const s = new ShotBySpaceship();
+      components.set(s.id, s);
     }
 
-      // prevent further shooting
-      this.isCanShot = false;
+    // prevent further shooting
+    this.isCanShot = false;
 
   }
 
@@ -133,21 +134,23 @@ class Spaceship extends Component {
   updateDisplaySpaceship () {
     Spaceship.draw(this.x, this.y, this.angle, this.radius, this.color);
 
-    // show ship's collision circle
-    if (DEBUG_MODE) {
+
+    if (SHIP_DEBUG_MODE) {
+      // show ship's collision circle
       GameArea.ctx.strokeStyle = 'lime';
       GameArea.ctx.beginPath();
       GameArea.ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
       GameArea.ctx.stroke();
+
+      //centre dot (optional)
+      GameArea.ctx.fillStyle = 'red';
+      GameArea.ctx.fillRect(this.x - 1, this.y - 1, 2, 2);
     }
 
   }
 
   updateDisplayThruster () {
-
-
-
-    GameArea.ctx.fillStyle = 'white';
+    GameArea.ctx.fillStyle = 'COLOR_WHITE';
     GameArea.ctx.strokeStyle = 'yellow';
     GameArea.ctx.lineWidth = this.radius / 5;
     GameArea.ctx.beginPath();
@@ -166,10 +169,6 @@ class Spaceship extends Component {
     GameArea.ctx.closePath();
     GameArea.ctx.fill();
     GameArea.ctx.stroke();
-
-
-
-
 
   }
 
@@ -225,9 +224,7 @@ class Spaceship extends Component {
     if (this.isThrusting && !exploding && blinkOn) {
       this.updateDisplayThruster();
     }
-    //centre dot (optional)
-    GameArea.ctx.fillStyle = 'red';
-    GameArea.ctx.fillRect(this.x - 1, this.y - 1, 2, 2);
+
   }
 
 

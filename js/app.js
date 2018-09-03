@@ -1,4 +1,5 @@
 /* global Spaceship,Shot,Attacker,Asteroid,GameArea  */
+const COLOR_WHITE = '#EDF2F4';
 let spaceship,stats;
 let ctx; //// TODO: delete this
 
@@ -22,7 +23,6 @@ const startGame = () => {
 //////////////////////////////////////////
 const updateGameArea = () => {
   GameArea.clear();
-  //spaceship.stopMove();
 
 
   // User Interaction
@@ -30,7 +30,6 @@ const updateGameArea = () => {
     (GameArea.keys && GameArea.keys[37]) ? spaceship.rotateLeft() : spaceship.stopRotate();
 
   (GameArea.keys && GameArea.keys[38]) ? spaceship.thrust() : spaceship.stopThrust();
-  //if (GameArea.keys && GameArea.keys[40])  spaceship.velocityDec();
   (GameArea.keys && GameArea.keys[32]) ? spaceship.fire() : spaceship.allowFire();
 
 
@@ -53,21 +52,17 @@ const updateGameArea = () => {
   //Colision Detection
   components.forEach( (cAsteroid) => {
     if (cAsteroid instanceof Asteroid){
+      // check if astroid hit by shot
       components.forEach( (cShoot) => {
-        if (cShoot instanceof Shot)  {
-            if (cShoot.explodeTime === 0 && distBetweenPoints(cAsteroid.x, cAsteroid.y, cShoot.x, cShoot.y) < cAsteroid.radius) {
-                console.log('Colision Detection');
-                // destroy the asteroid and activate the laser explosion
-                cAsteroid.brewingUp(); //destroyAsteroid(i);
-                cShoot.explode();//ship.lasers[j].explodeTime = Math.ceil(LASER_EXPLODE_DUR * FPS);
-            }
-
-
-
-
-
+        if (cShoot instanceof Shot && cShoot.isHit(cAsteroid.x, cAsteroid.y, cAsteroid.radius)){
+          // destroy the asteroid and activate the laser explosion
+          cAsteroid.brewingUp();
+          cShoot.explode();
         }
       });
+
+      // check if astroid hit the spaceship
+
     }
   });
 
@@ -95,6 +90,3 @@ function createAsteroidBelt() {
     components.set(a.id, a);
   }
 }
-
-const distBetweenPoints = (x1, y1, x2, y2) =>
-  Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));

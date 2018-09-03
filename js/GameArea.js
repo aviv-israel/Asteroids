@@ -20,8 +20,8 @@ class GameArea {
   static start () {
 
 
-    this.canvas.width = 1280;
-    this.canvas.height = 820;
+    this.canvas.width = window.innerWidth - window.innerWidth * 0.01 ;//1280;
+    this.canvas.height = window.innerHeight -window.innerHeight * 0.02;//820;
     this.context = this.ctx;
     this.frameNo = 0;
     document.body.insertBefore(this.canvas, document.body.childNodes[0]);

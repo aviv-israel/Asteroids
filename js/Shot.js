@@ -1,7 +1,6 @@
-/* global Component,  */
+/* global Component,GameArea  */
 const SHOT_DIST = 0.6; // max distance laser can travel as fraction of screen width
-const SHOT_EXPLODE_DUR = 0.1; // duration of the lasers' explosion in seconds
-
+const SHOT_EXPLODE_DUR = 0.001; // duration of the lasers' explosion in seconds
 const SHOT_VEL = 20; // velocity of lasers in pixels per second
 
 class Shot extends Component {
@@ -11,15 +10,18 @@ class Shot extends Component {
     this.color = color;
     this.dist =  0;
     this.explodeTime = 0
-
   }
 
-    // Calculate new position
-    newPos () {
-        this.x += this.velocity * Math.sin(this.angle);
-        this.y -= this.velocity * Math.cos(this.angle);
-        //console.log(`newpos ${this.id} ${this.x} ${this.y} ${this.angle}`);
-    }
+  isHit (targetX, targetY, targetR) {
+    return (this.explodeTime === 0) &&
+    (distBetweenPoints(targetX, targetY, this.x, this.y) < targetR);
+  }
+  // Calculate new position
+  newPos () {
+    this.x += this.velocity * Math.sin(this.angle);
+    this.y -= this.velocity * Math.cos(this.angle);
+    //console.log(`newpos ${this.id} ${this.x} ${this.y} ${this.angle}`);
+  }
 
   //this function handle the drawing of the component.
   updateDisplay () {
@@ -43,42 +45,41 @@ class ShotBySpaceship extends Shot {
         // });
 
 
-        super(10, 10, 'red', spaceship.x +4, spaceship.y, spaceship.velocity + SHOT_VEL,90/180 * Math.PI -spaceship.angle);
-        soundList.get('fire').play();
-    }
+    super(10, 10, 'red', spaceship.x +4, spaceship.y, spaceship.velocity + SHOT_VEL,90/180 * Math.PI -spaceship.angle);
+    soundList.get('fire').play();
+  }
 
-    explode () {
-        this.explodeTime = Math.ceil(SHOT_EXPLODE_DUR * GameArea.FPS);
-    }
-    //this function handle the drawing of the component.
-    updateDisplay () {
-        // console.log('update shot');
-        // ctx = GameArea.context;
-        // GameArea.ctx.fillStyle = this.color;
-        // GameArea.ctx.fillRect(this.x, this.y, this.width, this.height);
+  explode () {
+    this.explodeTime = Math.ceil(SHOT_EXPLODE_DUR * GameArea.FPS);
+  }
 
-        if (this.explodeTime === 0) {
-            GameArea.ctx.fillStyle = 'salmon';
-            GameArea.ctx.beginPath();
-            GameArea.ctx.arc(this.x, this.y, SHIP_SIZE / 15, 0, Math.PI * 2, false);
-            GameArea.ctx.fill();
-        } else {
-            // draw the eplosion
-            GameArea.ctx.fillStyle = 'orangered';
-            GameArea.ctx.beginPath();
-            GameArea.ctx.arc(this.x, this.y, spaceship.radius * 0.75, 0, Math.PI * 2, false);
-            GameArea.ctx.fill();
-            GameArea.ctx.fillStyle = 'salmon';
-            GameArea.ctx.beginPath();
-            GameArea.ctx.arc(this.x, this.y, spaceship.radius * 0.5, 0, Math.PI * 2, false);
-            GameArea.ctx.fill();
-            GameArea.ctx.fillStyle = 'pink';
-            GameArea.ctx.beginPath();
-            GameArea.ctx.arc(this.x, this.y, spaceship.radius * 0.25, 0, Math.PI * 2, false);
-            GameArea.ctx.fill();
-        }
+  draw () {
+    GameArea.ctx.fillStyle = 'salmon';
+    GameArea.ctx.beginPath();
+    GameArea.ctx.arc(this.x, this.y, SHIP_SIZE / 15, 0, Math.PI * 2, false);
+    GameArea.ctx.fill();
+  }
 
+  drawEplosion () {
+    GameArea.ctx.fillStyle = 'orangered';
+    GameArea.ctx.beginPath();
+    GameArea.ctx.arc(this.x, this.y, spaceship.radius * 0.75, 0, Math.PI * 2, false);
+    GameArea.ctx.fill();
+    GameArea.ctx.fillStyle = 'salmon';
+    GameArea.ctx.beginPath();
+    GameArea.ctx.arc(this.x, this.y, spaceship.radius * 0.5, 0, Math.PI * 2, false);
+    GameArea.ctx.fill();
+    GameArea.ctx.fillStyle = 'pink';
+    GameArea.ctx.beginPath();
+    GameArea.ctx.arc(this.x, this.y, spaceship.radius * 0.25, 0, Math.PI * 2, false);
+    GameArea.ctx.fill();
+  }
 
-    }
+  updateDisplay () {
+    if (this.explodeTime === 0)
+      this.draw();
+    else
+      this.drawEplosion();
+  }
 
 }

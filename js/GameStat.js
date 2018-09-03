@@ -21,7 +21,6 @@ class GameStats {
     if (!this._isAddedLive && this._score > SCORE_EXSTRA_SPACESHIP){
       ++this._lives;
       this._isAddedLive = true;
-      console.log('lives' + this._lives);
       soundList.get('extraShip').play();
     }
   }

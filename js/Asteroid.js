@@ -6,7 +6,10 @@ const ROID_JAG = 0.4, // jaggedness of the asteroids (0 = none, 1 = lots)
   ROID_VERT = 10, // average number of vertices on each asteroid
   ROID_S_PNT = 100,
   ROID_M_PNT = 50,
-  ROID_L_PNT = 20;
+  ROID_L_PNT = 20,
+  ROID_DEF_COL = '#EDF2F4',// Astroid default color
+  ROID_DEBUG_MODE = false;
+
 
 class Asteroid extends Attacker {
 
@@ -29,7 +32,6 @@ class Asteroid extends Attacker {
 
     // split the asteroid in two if necessary
     if (this.radius === Math.ceil(ROID_SIZE / 2)) { // large asteroid
-      console.log('astroid split');
       soundList.get('bangLarge').play();
       stats.addPoint(ROID_L_PNT);
       const as1 = new Asteroid (this.x, this.y, Math.ceil(ROID_SIZE / 4));
@@ -38,33 +40,21 @@ class Asteroid extends Attacker {
       components.set(as2.id,as2);
 
     } else if (this.radius === Math.ceil(ROID_SIZE / 4)) { // medium asteroid
-        console.log('astroid split');
-        soundList.get('bangMedium').play();
-        stats.addPoint(ROID_M_PNT);
-        const as1 = new Asteroid (this.x, this.y, Math.ceil(ROID_SIZE / 8));
-        components.set(as1.id,as1);
-        const as2 = new Asteroid (this.x, this.y, Math.ceil(ROID_SIZE / 8));
-        components.set(as2.id,as2);
+      console.log('astroid split');
+      soundList.get('bangMedium').play();
+      stats.addPoint(ROID_M_PNT);
+      const as1 = new Asteroid (this.x, this.y, Math.ceil(ROID_SIZE / 8));
+      components.set(as1.id,as1);
+      const as2 = new Asteroid (this.x, this.y, Math.ceil(ROID_SIZE / 8));
+      components.set(as2.id,as2);
 
     } else {
-        soundList.get('bangSmall').play();
-        stats.addPoint(ROID_S_PNT);
+      soundList.get('bangSmall').play();
+      stats.addPoint(ROID_S_PNT);
     }
 
     // destroy the asteroid
     components.delete(this.id);
-
-
-
-
-
-    // if (this.mass > 20) {
-    //   const as1 = new Asteroid (this.width , this.height / 2, this.color, this.x, this.y, this.velocity+4 , this.angle + Math.PI / 180);
-    //   components.set(as1.id,as1);
-    //   const as2 = new Asteroid (this.width , this.height / 2, this.color, this.x, this.y, this.velocity+3, this.angle - Math.PI / 180);
-    //   components.set(as2.id,as2);
-    // }
-    // components.delete(this.id);
 
   }
 
@@ -90,14 +80,14 @@ class Asteroid extends Attacker {
   relocate () {
     // handle asteroid edge of screen
     if (this.x < 0 - this.radius) {
-        this.x = GameArea.canvas.width + this.radius;
+      this.x = GameArea.canvas.width + this.radius;
     } else if (this.x > GameArea.canvas.width + this.radius) {
-        this.x = 0 - this.radius
+      this.x = 0 - this.radius
     }
     if (this.y < 0 - this.radius) {
-        this.y = GameArea.canvas.height + this.radius;
+      this.y = GameArea.canvas.height + this.radius;
     } else if (this.y > GameArea.canvas.height + this.radius) {
-        this.y = 0 - this.radius
+      this.y = 0 - this.radius
     }
   }
 
@@ -129,17 +119,17 @@ class Asteroid extends Attacker {
     GameArea.ctx.closePath();
     GameArea.ctx.stroke();
 
-    //centre dot
-    GameArea.ctx.fillStyle = 'red';
-    GameArea.ctx.fillRect(this.x - 1, this.y - 1, 2, 2);
-
+    if (ROID_DEBUG_MODE) {
+      //center dot
+      GameArea.ctx.fillStyle = 'red';
+      GameArea.ctx.fillRect(this.x - 1, this.y - 1, 2, 2);
 
       // show asteroid's collision circle
-
-    GameArea.ctx.strokeStyle = 'lime';
-    GameArea.ctx.beginPath();
-    GameArea.ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
-    GameArea.ctx.stroke();
+      GameArea.ctx.strokeStyle = 'lime';
+      GameArea.ctx.beginPath();
+      GameArea.ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
+      GameArea.ctx.stroke();
+    }
 
 
   }
