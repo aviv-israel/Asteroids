@@ -1,9 +1,12 @@
 /* global Component, Attacker  */
-const ROID_JAG = 0.4; // jaggedness of the asteroids (0 = none, 1 = lots)
-const ROID_NUM = 3; // starting number of asteroids
-const ROID_SIZE = 100; // starting size of asteroids in pixels
-const ROID_SPD = 50; // max starting speed of asteroids in pixels per second
-const ROID_VERT = 10; // average number of vertices on each asteroid
+const ROID_JAG = 0.4, // jaggedness of the asteroids (0 = none, 1 = lots)
+  ROID_NUM = 3, // starting number of asteroids
+  ROID_SIZE = 100, // starting size of asteroids in pixels
+  ROID_SPD = 50, // max starting speed of asteroids in pixels per second
+  ROID_VERT = 10, // average number of vertices on each asteroid
+  ROID_S_PNT = 100,
+  ROID_M_PNT = 50,
+  ROID_L_PNT = 20;
 
 class Asteroid extends Attacker {
 
@@ -26,21 +29,26 @@ class Asteroid extends Attacker {
 
     // split the asteroid in two if necessary
     if (this.radius === Math.ceil(ROID_SIZE / 2)) { // large asteroid
-        console.log('astroid split');
-        soundList.get('bangLarge').play();
-        const as1 = new Asteroid (this.x, this.y, Math.ceil(ROID_SIZE / 4));
-        components.set(as1.id,as1);
-        const as2 = new Asteroid (this.x, this.y, Math.ceil(ROID_SIZE / 4));
-        components.set(as2.id,as2);
+      console.log('astroid split');
+      soundList.get('bangLarge').play();
+      stats.addPoint(ROID_L_PNT);
+      const as1 = new Asteroid (this.x, this.y, Math.ceil(ROID_SIZE / 4));
+      components.set(as1.id,as1);
+      const as2 = new Asteroid (this.x, this.y, Math.ceil(ROID_SIZE / 4));
+      components.set(as2.id,as2);
+
     } else if (this.radius === Math.ceil(ROID_SIZE / 4)) { // medium asteroid
         console.log('astroid split');
         soundList.get('bangMedium').play();
+        stats.addPoint(ROID_M_PNT);
         const as1 = new Asteroid (this.x, this.y, Math.ceil(ROID_SIZE / 8));
         components.set(as1.id,as1);
         const as2 = new Asteroid (this.x, this.y, Math.ceil(ROID_SIZE / 8));
         components.set(as2.id,as2);
+
     } else {
         soundList.get('bangSmall').play();
+        stats.addPoint(ROID_S_PNT);
     }
 
     // destroy the asteroid

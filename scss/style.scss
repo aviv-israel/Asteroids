@@ -1,10 +1,16 @@
+@font-face {
+    font-family: 'Hyperspace';
+    src: url('../assets/fonts/Hyperspace.otf');
+}
 html {
   background-color: black;
   color: white;
+  font-family: "Hyperspace", "Arial";
 
 
   canvas {
     border: 1px solid #444;
     background-color: #444;
+  }
 }
-}
+// }

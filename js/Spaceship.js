@@ -9,6 +9,8 @@ const SHIP_SIZE = 30; // ship height in pixels
 const SHIP_THRUST = 5; // acceleration of the ship in pixels per second per second
 const SHIP_TURN_SPD = 360; // turn speed in degrees per second
 const SHOT_MAX = 10; // maximum number of lasers on screen at once
+const DEBUG_MODE = true; // Show bounds and logs
+
 
 class Spaceship extends Component {
 
@@ -84,11 +86,11 @@ class Spaceship extends Component {
 
   sumShotExist () {
     let sum = 0;
-      components.forEach( (c) => {
-        if (c instanceof ShotBySpaceship)
-          ++sum;
-      });
-      return sum;
+    components.forEach( (c) => {
+      if (c instanceof ShotBySpaceship)
+        ++sum;
+    });
+    return sum;
   }
 
   explode () {
@@ -108,31 +110,36 @@ class Spaceship extends Component {
 
   }
 
-  updateDisplaySpaceship () {
+  static draw (x = this.x, y = this.y, a = this.angle, r = this.radius, col = this.color) {
     GameArea.ctx.lineWidth = this.spaceshipSize / 20;
-    GameArea.ctx.strokeStyle = this.color;
+    GameArea.ctx.strokeStyle = col;
     GameArea.ctx.beginPath();
     GameArea.ctx.moveTo( // Nose of the ship
-      this.x + 4 / 3 * this.radius * Math.cos(this.angle),
-      this.y - 4 / 3 * this.radius * Math.sin(this.angle)
+      x + 4 / 3 * r * Math.cos(a),
+      y - 4 / 3 * r * Math.sin(a)
     );
     GameArea.ctx.lineTo( // Rear left
-      this.x - this.radius * (2 / 3 * Math.cos(this.angle) + Math.sin(this.angle)),
-      this.y + this.radius * (2 / 3 * Math.sin(this.angle) - Math.cos(this.angle))
+      x - r * (2 / 3 * Math.cos(a) + Math.sin(a)),
+      y + r * (2 / 3 * Math.sin(a) - Math.cos(a))
     );
     GameArea.ctx.lineTo( // Rear right
-      this.x - this.radius * (2 / 3 * Math.cos(this.angle) - Math.sin(this.angle)),
-      this.y + this.radius * (2 / 3 * Math.sin(this.angle) + Math.cos(this.angle))
+      x - r * (2 / 3 * Math.cos(a) - Math.sin(a)),
+      y + r * (2 / 3 * Math.sin(a) + Math.cos(a))
     );
     GameArea.ctx.closePath();
     GameArea.ctx.stroke();
+  }
+
+  updateDisplaySpaceship () {
+    Spaceship.draw(this.x, this.y, this.angle, this.radius, this.color);
 
     // show ship's collision circle
-
-    GameArea.ctx.strokeStyle = 'lime';
-    GameArea.ctx.beginPath();
-    GameArea.ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
-    GameArea.ctx.stroke();
+    if (DEBUG_MODE) {
+      GameArea.ctx.strokeStyle = 'lime';
+      GameArea.ctx.beginPath();
+      GameArea.ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
+      GameArea.ctx.stroke();
+    }
 
   }
 
