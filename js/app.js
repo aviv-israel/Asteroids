@@ -1,164 +1,103 @@
-let myGamePiece,myGamePiece2,shot1, shot2;
-let ctx;
+/* global Spaceship,Shot,Attacker,Asteroid,GameArea  */
+let spaceship;
+let ctx; //// TODO: delete this
 
-//////////////////////////////////////////
+const components = new Map();
+
+
 document.addEventListener('DOMContentLoaded',() => {
   console.log('start game');
   startGame();
+  creatSoundList();
 });
-//////////////////////////////////////////
+
 
 const startGame = () => {
-  myGameArea.start();
-  myGamePiece = new Spaceship(30, 30, 'white', 10, 120);
-  //myGamePiece2 = new Spaceship(30, 30, 'blue', 10, 120);
-  shot1 = new Shots(0, 0, 'blue', 0, 0);
-};
+  GameArea.start();
+  spaceship = new Spaceship();
+  // const a = new Asteroid(40, 40, 'blue', 160, 160, 1, 1);
+  // components.set(a.id, a);
+  // const a = new Asteroid(GameArea.canvas.width/2, GameArea.canvas.height/3);
+  // console.dir(a);
+  //   components.set(a.id, a);
+  createAsteroidBelt();
 
+};
+//////////////////////////////////////////
 const updateGameArea = () => {
-  myGameArea.clear();
-  myGamePiece.stopMove();
-  myGamePiece.stopRotate();
-  if (myGameArea.key && myGameArea.key === 37)  myGamePiece.moveleft();
-  if (myGameArea.key && myGameArea.key === 39)  myGamePiece.moveright();
-  if (myGameArea.key && myGameArea.key === 38)  myGamePiece.moveup();
-  if (myGameArea.key && myGameArea.key === 40)  myGamePiece.movedown();
-  if (myGameArea.key && myGameArea.key === 82)  myGamePiece.rotateRight(); //// FIXME: fix rotate + add control by mouse
-  if (myGameArea.key && myGameArea.key === 83)  shot1 = new Shots(10, 10, 'red', myGamePiece.x, myGamePiece.y, 5, 5);
+  GameArea.clear();
+  //spaceship.stopMove();
+
+
+  // User Interaction
+  (GameArea.keys && GameArea.keys[39]) ? spaceship.rotateRight():
+    (GameArea.keys && GameArea.keys[37]) ? spaceship.rotateLeft() : spaceship.stopRotate();
+
+  (GameArea.keys && GameArea.keys[38]) ? spaceship.thrust() : spaceship.stopThrust();
+  //if (GameArea.keys && GameArea.keys[40])  spaceship.velocityDec();
+  (GameArea.keys && GameArea.keys[32]) ? spaceship.fire() : spaceship.allowFire();
+
+
+  // Game Logic
+
+
+  // Positional Logic
+  spaceship.relocate();
+  spaceship.newPos();
+  components.forEach( (c) => {
+    if (c instanceof Asteroid)
+      c.relocate();
+    if ((c instanceof Shot) && (c.isOutOfGameArea())) // Fix
+      components.delete(c.id);
+    c.newPos();
+
+  });
+
+
+  //Colision Detection
+  components.forEach( (cAsteroid) => {
+    if (cAsteroid instanceof Asteroid){
+      components.forEach( (cShoot) => {
+        if (cShoot instanceof Shot)  {
+            if (cShoot.explodeTime === 0 && distBetweenPoints(cAsteroid.x, cAsteroid.y, cShoot.x, cShoot.y) < cAsteroid.radius) {
+                console.log('Colision Detection');
+                // destroy the asteroid and activate the laser explosion
+                cAsteroid.brewingUp(); //destroyAsteroid(i);
+                cShoot.explode();//ship.lasers[j].explodeTime = Math.ceil(LASER_EXPLODE_DUR * FPS);
+            }
 
 
 
-  myGamePiece.newPos();
-  shot1.newPos();
-  //myGamePiece.angle = 0;
-  myGamePiece.update();
-  //myGamePiece2.update();
-  shot1.update();
+
+
+        }
+      });
+    }
+  });
+
+
+
+  // Render
+  spaceship.updateDisplay();
+  components.forEach( (c) => c.updateDisplay() );
+
 };
-/////////////////////////////////////////////////
-const myGameArea = {
-  canvas: document.createElement('canvas'),
-  start: function() {
-    this.canvas.width = 960; //480;
-    this.canvas.height = 540; // 270;
-    this.context = this.canvas.getContext('2d');
-    document.body.insertBefore(this.canvas, document.body.childNodes[0]);
 
-    // run the updateGameArea() function every 20th millisecond (50 times per second - the recomended time for action game)
-    this.interval = setInterval(updateGameArea, 20);
+function createAsteroidBelt() {
+  let x, y,r;
+  for (let i = 0; i < 10; i++) {
+    console.log('createAsteroidBelt');
+    // random asteroid location (not touching spaceship)
+    do {
 
-    //checks if a key is pressed, and set the key property of the myGameArea object to the key code. When the key is released, set the key property to false
-    window.addEventListener('keydown',(e) => {
-      myGameArea.key = e.keyCode;
-      console.dir(myGameArea.key);
-    });
-    window.addEventListener('keyup', (e) => myGameArea.key = false);
-  },
-
-  //clears the entire canvas.
-  clear: function() {
-    //console.log('clear');
-    this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-  }
-};
-///////////////////////////////////////////////////////
-class Spaceship {
-  constructor(width, height, color, x, y) {
-    this.width = width;
-    this.height = height;
-    this.x = x;
-    this.y = y;
-    this.speedX = 0;
-    this.speedY = 0;
-    this.angle = 0;
-    this.color = color;
-  }
-  //this function define the new position
-  newPos () {
-    this.x += this.speedX;
-    this.y += this.speedY;
-  }
-
-  moveup() {
-    console.log('moveup');
-    this.speedY -= 1;
-  }
-
-  movedown() {
-    console.log('movedown');
-    this.speedY += 1;
-  }
-
-  moveleft() {
-    this.speedX -= 1;
-  }
-
-  moveright() {
-    this.speedX += 1;
-  }
-
-  stopMove() {
-    this.speedX = 0;
-    this.speedY = 0;
-  }
-
-  rotateRight() {
-    this.angle += 1 * Math.PI / 180 ;
-
-  }
-
-  rotateLeft() {
-    this.angle -= 1;
-  }
-
-  stopRotate() {
-    this.angle = 0;
-  }
-
-  //this function handle the drawing of the component.
-  update () {
-    //console.log('update');
-    ctx = myGameArea.context;
-    // ctx.beginPath();
-    // ctx.moveTo(75, 50);
-    // ctx.lineTo(100, 75);
-    // ctx.lineTo(100, 25);
-    // ctx.fill();
-
-    //ctx.save();
-    //ctx.translate(this.x, this.y);
-    ctx.rotate(this.angle);
-    ctx.fillStyle = this.color;
-    //ctx.fillRect(this.width / -2, this.height / -2, this.width, this.height);
-
-    ctx.fillRect(this.x, this.y, this.width, this.height);
-    //ctx.restore();
+      x = Math.floor(Math.random() * GameArea.canvas.width);
+      y = Math.floor(Math.random() * GameArea.canvas.height);
+        r = Math.ceil(ROID_SIZE / 2);//r = Math.ceil(ROID_SIZE / 2);
+    } while (distBetweenPoints(spaceship.x, spaceship.y, x, y) < ROID_SIZE * 2 + spaceship.radius);
+    const a = new Asteroid(x, y, r);
+    components.set(a.id, a);
   }
 }
-/////////////////////////////////////////////////////
-class Shots {
-  constructor(width, height, color, x, y, speedx, speedy) {
-    this.width = width;
-    this.height = height;
-    this.x = x;
-    this.y = y;
-    this.speedX = speedx;
-    this.speedY = speedy;
-    this.color = color;
-  }
-  newPos () {
-    this.x += this.speedX;
-    this.y += this.speedY;
-  }
 
-  //this function handle the drawing of the component.
-  update () {
-    //console.log('update');
-    ctx = myGameArea.context;
-
-    ctx.rotate(this.angle);
-    ctx.fillStyle = this.color;
-
-    ctx.fillRect(this.x, this.y, this.width, this.height);
-  }
-}
+const distBetweenPoints = (x1, y1, x2, y2) =>
+  Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
