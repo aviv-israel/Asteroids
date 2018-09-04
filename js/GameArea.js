@@ -43,6 +43,10 @@ class GameArea {
     this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
   }
 
+  static finish () {
+    this.stop();
+    this.canvas.parentNode.removeChild(this.canvas);
+  }
 
 
 }

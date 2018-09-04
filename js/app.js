@@ -41,8 +41,8 @@ const updateGameArea = () => {
   components.forEach( (c) => {
     if (c instanceof Asteroid)
       c.relocate();
-    if ((c instanceof Shot) && (c.isOutOfGameArea())) // Fix
-      components.delete(c.id);
+    // if ((c instanceof Shot) && (c.isOutOfGameArea())) // Fix
+    //   components.delete(c.id);
     c.newPos();
 
   });
@@ -81,6 +81,8 @@ const updateGameArea = () => {
 
 const gameOver = () => {
   console.log('game over');
+
+  GameArea.finish();
 };
 
 function createAsteroidBelt() {
