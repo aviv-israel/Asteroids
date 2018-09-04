@@ -196,6 +196,7 @@ class Spaceship extends Component {
 
   // This function handle the drawing of the component.
   updateDisplay() {
+    this.relocate()
 
     // draw the spaceship
     if (!this.isExploding()) {

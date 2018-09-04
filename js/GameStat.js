@@ -20,9 +20,11 @@ class GameStats {
   decriseLive () {
     --this._lives;
     if (this._lives === 0) {
-      gameOver();
+      Game.turnStepOver();
     } else {
+      components.delete(spaceship.id);
       spaceship = new Spaceship();
+      components.set(spaceship.id,spaceship);
     }
   }
 

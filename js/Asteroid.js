@@ -4,10 +4,10 @@ const ROID_JAG = 0.4, // jaggedness of the asteroids (0 = none, 1 = lots)
   ROID_SIZE = 100, // starting size of asteroids in pixels
   ROID_SPD = 50, // max starting speed of asteroids in pixels per second
   ROID_VERT = 10, // average number of vertices on each asteroid
-  ROID_S_PNT = 100,
-  ROID_M_PNT = 50,
-  ROID_L_PNT = 20,
-  ROID_DEF_COL = '#EDF2F4',// Astroid default color
+  ROID_S_PNT = 100, // Point for hiting in small asteroid
+  ROID_M_PNT = 50, // Point for hiting in medium asteroid
+  ROID_L_PNT = 20, // Point for hiting in large asteroid
+  ROID_DEF_COL = '#EDF2F4',// Astroid default color //'slategrey' // TODO: to think witch color better
   ROID_DEBUG_MODE = false;
 
 
@@ -58,24 +58,6 @@ class Asteroid extends Attacker {
   }
 
 
-
-  // crashWith (otherobj) { //// FIXME: to add is before name function
-  //   const myLeft  = this.x,
-  //     myRight     = this.x + (this.width),
-  //     myTop       = this.y,
-  //     myBottom    = this.y + (this.height),
-  //     otherLeft   = otherobj.x,
-  //     otherRight  = otherobj.x + (otherobj.width),
-  //     otherTop    = otherobj.y,
-  //     otherBottom = otherobj.y + (otherobj.height);
-  //
-  //   return !((myBottom < otherTop) ||
-  //          (myTop > otherBottom) ||
-  //          (myRight < otherLeft) ||
-  //          (myLeft > otherRight));
-  //
-  // }
-
   relocate () {
     // handle asteroid edge of screen
     if (this.x < 0 - this.radius) {
@@ -93,12 +75,11 @@ class Asteroid extends Attacker {
   newPos () {
     this.x += this.xv;
     this.y += this.yv;
+    this.relocate();
   }
-  //this function handle the drawing of the component.
-  updateDisplay () {
 
-    // draw the asteroids
-    GameArea.ctx.strokeStyle = 'slategrey';
+  drawAsteroid () {
+    GameArea.ctx.strokeStyle = ROID_DEF_COL;
     GameArea.ctx.lineWidth = spaceship.radius / 10;
 
     // draw the path
@@ -117,6 +98,12 @@ class Asteroid extends Attacker {
     }
     GameArea.ctx.closePath();
     GameArea.ctx.stroke();
+  }
+
+  //this function handle the drawing of the component.
+  updateDisplay () {
+
+    this.drawAsteroid();
 
     if (ROID_DEBUG_MODE) {
       //center dot
@@ -130,8 +117,6 @@ class Asteroid extends Attacker {
       GameArea.ctx.stroke();
     }
 
-
   }
-
 
 }

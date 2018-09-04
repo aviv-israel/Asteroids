@@ -25,13 +25,23 @@ class GameArea {
     this.context = this.ctx;
     this.frameNo = 0;
     document.body.insertBefore(this.canvas, document.body.childNodes[0]);
-    this.interval = setInterval(Game.updateGameArea, 1000 / this.FPS);
+    this.interval = setInterval(Game.updateAll, 1000 / this.FPS);
+
     window.addEventListener('keydown', (e) => {
       this.keys = (this.keys || []);
       this.keys[e.keyCode] = true;
     });
     window.addEventListener('keyup', (e) => {
       this.keys[e.keyCode] = false;
+    });
+
+    window.addEventListener('scroll', (e) => {
+      console.dir(e);
+      console.dir(document.documentElement.scrollTop);
+      if (e.timeStamp >70 && Game.isStepPre){
+        this.canvas.classList.add('is-active');
+        Game.turnStepReady();
+      }
     });
   }
 

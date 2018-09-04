@@ -4,5 +4,9 @@
 
 document.addEventListener('DOMContentLoaded',() => {
   console.log('start game');
-  Game.startGame();
+  const game =new Game();
+  Game.init();
+
+
+
 });

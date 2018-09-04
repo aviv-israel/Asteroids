@@ -5,8 +5,18 @@ html {
   background-color: #2B2D42;
   color: white;
   font-family: "Hyperspace", "Arial"; }
-  html canvas {
+  html body canvas {
     border: 1px solid #2B2D42;
-    background-color: #2B2D42; }
+    background-color: #2B2D42;
+    filter: blur(18px);
+    -webkit-filter: blur(6px);
+    transition: filter .10s ease-out;
+    transition: filter .10s ease-out,-webkit-filter .10s ease-out;
+    transition-delay: .7s;
+    transition: -webkit-filter 1.10s ease-out; }
+  html body canvas.is-active {
+    -webkit-filter: blur(0);
+    filter: blur(0);
+    pointer-events: auto; }
 
 /*# sourceMappingURL=style.css.map */
