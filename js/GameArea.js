@@ -25,7 +25,7 @@ class GameArea {
     this.context = this.ctx;
     this.frameNo = 0;
     document.body.insertBefore(this.canvas, document.body.childNodes[0]);
-    this.interval = setInterval(updateGameArea, 1000 / this.FPS);
+    this.interval = setInterval(Game.updateGameArea, 1000 / this.FPS);
     window.addEventListener('keydown', (e) => {
       this.keys = (this.keys || []);
       this.keys[e.keyCode] = true;
