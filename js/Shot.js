@@ -1,7 +1,8 @@
 /* global Component,GameArea  */
 const SHOT_DIST = 0.4, // max distance laser can travel as fraction of screen width
-  SHOT_EXPLODE_DUR = 0.001, // duration of the lasers' explosion in seconds
-  SHOT_VEL = 20; // velocity of lasers in pixels per second
+  SHOT_EXPLODE_DUR = 0.01, // duration of the lasers' explosion in seconds
+  SHOT_VEL = 20; // velocity of shot in pixels per second
+  SHOT_SIZE = 2;
 
 class Shot extends Component {
 
@@ -16,7 +17,7 @@ class Shot extends Component {
     return (this.explodeTime === 0) &&
     (distBetweenPoints(targetX, targetY, this.x, this.y) < targetR);
   }
-  
+
   // Calculate new position
   newPos () {
     // check distance travelled
@@ -59,9 +60,39 @@ class Shot extends Component {
 
   }
 
-  //this function handle the drawing of the component.
-  updateDisplay () {
+  draw () {
     GameArea.ctx.fillStyle = this.color;
-    GameArea.ctx.fillRect(this.x, this.y, this.width, this.height);
+    GameArea.ctx.beginPath();
+    GameArea.ctx.arc(this.x, this.y, SHOT_SIZE, 0, Math.PI * 2, false);
+    GameArea.ctx.fill();
   }
+
+
+  explode () {
+    this.explodeTime = Math.ceil(SHOT_EXPLODE_DUR * GameArea.FPS);
+  }
+
+  drawExplosion () {
+    GameArea.ctx.fillStyle = 'orangered';
+    GameArea.ctx.beginPath();
+    GameArea.ctx.arc(this.x, this.y, spaceship.radius * 0.75, 0, Math.PI * 2, false);
+    GameArea.ctx.fill();
+    GameArea.ctx.fillStyle = 'salmon';
+    GameArea.ctx.beginPath();
+    GameArea.ctx.arc(this.x, this.y, spaceship.radius * 0.5, 0, Math.PI * 2, false);
+    GameArea.ctx.fill();
+    GameArea.ctx.fillStyle = 'pink';
+    GameArea.ctx.beginPath();
+    GameArea.ctx.arc(this.x, this.y, spaceship.radius * 0.25, 0, Math.PI * 2, false);
+    GameArea.ctx.fill();
+  }
+
+
+  updateDisplay () {
+    if (this.explodeTime === 0)
+      this.draw();
+    else
+      this.drawExplosion();
+  }
+
 }

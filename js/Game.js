@@ -165,7 +165,7 @@ class Game{ //// TODO: cancle static - real object
 // }
 
 
-  static cdShotAttacker(attacker) {
+  static cdShotOnAttacker(attacker) {
     if (attacker instanceof Attacker){
       //check if attacker hit by shot of spaceship
       components.forEach( (cShoot) => {
@@ -186,6 +186,16 @@ class Game{ //// TODO: cancle static - real object
       spaceship.explode();
     }
   }
+
+
+  static cdShotOnSpaceship(shotOfSaucer) {
+    if ((shotOfSaucer instanceof ShotBySaucer) &&
+      (spaceship.isCollision(shotOfSaucer.x, shotOfSaucer.y, 1))){
+      shotOfSaucer.explode();
+      spaceship.explode();
+    }
+  }
+
 
   static updateAll () {
     GameArea.clear();
@@ -233,9 +243,10 @@ class Game{ //// TODO: cancle static - real object
         components.forEach( (c) => c.newPos() );
 
         //Colision Detection //// FIXME: refactoring with colision function
-        components.forEach( (cAttacker) => {
-          Game.cdShotAttacker(cAttacker);
-          Game.cdSpaceshipAttacker(cAttacker);
+        components.forEach( (c) => {
+          Game.cdShotOnAttacker(c);
+          Game.cdSpaceshipAttacker(c);
+          Game.cdShotOnSpaceship(c);
         });
 
         // Render
