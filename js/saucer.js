@@ -23,7 +23,18 @@ class Saucer extends Attacker {
 
   brewingUp (){}
 
-  relocate () {// like asteroid
+  fire () {
+    
   }
+
+  relocate () {
+    // like asteroid
+  }
+
+  pos (){}//put on Attacker
+
+  drawSaucer () {}
+
+  updateDisplay () {}
 
 }

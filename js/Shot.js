@@ -16,6 +16,7 @@ class Shot extends Component {
     return (this.explodeTime === 0) &&
     (distBetweenPoints(targetX, targetY, this.x, this.y) < targetR);
   }
+  
   // Calculate new position
   newPos () {
     // check distance travelled
@@ -58,64 +59,9 @@ class Shot extends Component {
 
   }
 
-
-
   //this function handle the drawing of the component.
   updateDisplay () {
     GameArea.ctx.fillStyle = this.color;
     GameArea.ctx.fillRect(this.x, this.y, this.width, this.height);
   }
-}
-
-class ShotBySpaceship extends Shot {
-
-
-    constructor () {
-        // ship.lasers.push({ // from the nose of the ship
-        //     x: ship.x + 4 / 3 * ship.r * Math.cos(ship.a),
-        //     y: ship.y - 4 / 3 * ship.r * Math.sin(ship.a),
-        //     xv: LASER_SPD * Math.cos(ship.a) / FPS,
-        //     yv: -LASER_SPD * Math.sin(ship.a) / FPS,
-        //     dist: 0,
-        //     explodeTime: 0
-        // });
-
-
-    super(10, 10, 'red', spaceship.x +4, spaceship.y, spaceship.velocity + SHOT_VEL,90/180 * Math.PI -spaceship.angle);
-    soundList.get('fire').play();
-  }
-
-  explode () {
-    this.explodeTime = Math.ceil(SHOT_EXPLODE_DUR * GameArea.FPS);
-  }
-
-  draw () {
-    GameArea.ctx.fillStyle = 'salmon';
-    GameArea.ctx.beginPath();
-    GameArea.ctx.arc(this.x, this.y, SHIP_SIZE / 15, 0, Math.PI * 2, false);
-    GameArea.ctx.fill();
-  }
-
-  drawEplosion () {
-    GameArea.ctx.fillStyle = 'orangered';
-    GameArea.ctx.beginPath();
-    GameArea.ctx.arc(this.x, this.y, spaceship.radius * 0.75, 0, Math.PI * 2, false);
-    GameArea.ctx.fill();
-    GameArea.ctx.fillStyle = 'salmon';
-    GameArea.ctx.beginPath();
-    GameArea.ctx.arc(this.x, this.y, spaceship.radius * 0.5, 0, Math.PI * 2, false);
-    GameArea.ctx.fill();
-    GameArea.ctx.fillStyle = 'pink';
-    GameArea.ctx.beginPath();
-    GameArea.ctx.arc(this.x, this.y, spaceship.radius * 0.25, 0, Math.PI * 2, false);
-    GameArea.ctx.fill();
-  }
-
-  updateDisplay () {
-    if (this.explodeTime === 0)
-      this.draw();
-    else
-      this.drawEplosion();
-  }
-
 }

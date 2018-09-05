@@ -84,7 +84,6 @@ class Spaceship extends Component {
 
     // prevent further shooting
     this.isCanShot = false;
-
   }
 
   allowFire () {
