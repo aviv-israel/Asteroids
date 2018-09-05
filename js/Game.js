@@ -38,6 +38,11 @@ class Game{ //// TODO: cancle static - real object
     createAsteroidBelt();
   }
 
+  static resetGame () {
+    components.clear();
+    //// TODO: add play class (GameStat)
+  }
+
   static isStepPre () {
     return GAME_STP_PRE === Game.step;
   }
@@ -59,17 +64,14 @@ class Game{ //// TODO: cancle static - real object
     Game.isBlinkOn = !Game.isBlinkOn;
   }
 
-
-
-
   // start the game
   static turnStepOn () {
     Game.step = GAME_STP_ON;
+    Game.resetGame();
     components.set(spaceship.id, spaceship);
-    //components.set(spaceship.id, spaceship);
+    Asteroid.generateAsteroids();
 
   }
-
 
   static turnStepOver () {
     console.log('game over');
@@ -121,6 +123,7 @@ class Game{ //// TODO: cancle static - real object
   }
 
 
+
   static drawFooterText () {
     GameArea.ctx.font = `${GAME_FOOTER_FONT_SIZE} ${FONT_NAME}`;
     GameArea.ctx.fillStyle = 'white';
@@ -129,40 +132,6 @@ class Game{ //// TODO: cancle static - real object
       GameArea.canvas.width * 0.5,
       GameArea.canvas.height * 0.93);
   }
-//
-//   static addInput(x, y) {
-//
-//     let input = document.createElement('input');
-//
-//     input.type = 'text';
-//     input.style.position = 'fixed';
-//     input.style.left = (x - 4) + 'px';
-//     input.style.top = (y - 4) + 'px';
-//
-//     input.onkeydown = handleEnter;
-//
-//     document.body.appendChild(input);
-//
-//     input.focus();
-//
-//     hasInput = true;
-// }
-//
-//   static handleEnter(e) {
-//     let keyCode = e.keyCode;
-//     if (keyCode === 13) {
-//       Game.drawText(this.value, parseInt(this.style.left, 10), parseInt(this.style.top, 10));
-//       document.body.removeChild(this);
-//       //hasInput = false;
-//     }
-// }
-//
-//   static drawText(txt, x, y) {
-//     GameArea.ctx.textBaseline = 'top';
-//     GameArea.ctx.textAlign = 'left';
-//     GameArea.ctx.font = `${GAME_STP_SAVE_FONT_SIZE} ${FONT_NAME}`;
-//     GameArea.ctx.fillText(txt, x - 4, y - 4);
-// }
 
 
   static cdShotOnAttacker(attacker) {
@@ -271,6 +240,10 @@ class Game{ //// TODO: cancle static - real object
     }
 
   }
+
+
+
+
 
 }
 Game.step = 1;

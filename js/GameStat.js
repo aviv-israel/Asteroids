@@ -10,7 +10,9 @@ class GameStats {
     this._score = 0;
     this._lives = INIT_SPACESHIP_LIVES;
     this._isAddedLive = false;
-    this._level = 0;
+    this.level = 0;
+    this.roidsTotal;
+    this.roidsLeft
   }
 
   addPoint (points) {
@@ -40,7 +42,7 @@ class GameStats {
 
   checkMoveNewLevel () {
     // new level when no more asteroids
-    if (Tool.numOfAstroids === 0) {
+    if (Tool.numOfAstroids() === 0) {
       this.level++;
       this.newLevel();
     }
@@ -48,7 +50,7 @@ class GameStats {
 
   newLevel () {
     //music.setAsteroidRatio(1);
-    //generateAsteroids(); //// TODO:
+    Asteroid.generateAsteroids();
   }
 
   updateDisplayScore () {

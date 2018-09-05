@@ -1,6 +1,6 @@
 /* global Component, Attacker  */
 const ROID_JAG = 0.4, // jaggedness of the asteroids (0 = none, 1 = lots)
-  ROID_NUM = 3, // starting number of asteroids
+  ROID_NUM = 5, // starting number of asteroids
   ROID_SIZE = 100, // starting size of asteroids in pixels
   ROID_SPD = 50, // max starting speed of asteroids in pixels per second
   ROID_VERT = 10, // average number of vertices on each asteroid
@@ -53,6 +53,7 @@ class Asteroid extends Attacker {
 
     // destroy the asteroid
     components.delete(this.id);
+    --gamestat.roidsLeft;
 
   }
 
@@ -85,6 +86,24 @@ class Asteroid extends Attacker {
 
     if (ROID_DEBUG_MODE)
       this.drawDebug();
+  }
+
+  static generateAsteroids() {
+
+    let x, y,r;
+    gamestat.roidsTotal = (ROID_NUM + gamestat.level) * 7;
+    gamestat.roidsLeft = gamestat.roidsTotal;
+    console.log('generateAsteroids' + gamestat.level);
+    for (var i = 0; i < ROID_NUM + gamestat.level; i++) {
+      // random asteroid location (not touching spaceship)
+      do {
+        x = Math.floor(Math.random() * GameArea.canvas.width);
+        y = Math.floor(Math.random() * GameArea.canvas.height);
+        r = Math.ceil(ROID_SIZE / 2);
+      } while (distBetweenPoints(spaceship.x, spaceship.y, x, y) < ROID_SIZE * 2 + spaceship.radius);
+      const a = new Asteroid(x, y, r);
+      components.set(a.id, a);
+    }
   }
 
 }
