@@ -7,6 +7,10 @@ class Attacker extends Component{
 
   }
 
+  brewingUp () {
+    console.log('abstract method - haven\'t been method for the class')
+  }
+
   drawDebug () {
     //center dot
     GameArea.ctx.fillStyle = 'red';

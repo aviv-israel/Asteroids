@@ -155,7 +155,7 @@ class Spaceship extends Component {
       GameArea.ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
       GameArea.ctx.stroke();
 
-      //centre dot (optional)
+      //centre dot
       GameArea.ctx.fillStyle = 'red';
       GameArea.ctx.fillRect(this.x - 1, this.y - 1, 2, 2);
     }
@@ -221,22 +221,7 @@ class Spaceship extends Component {
       GameArea.ctx.beginPath();
       GameArea.ctx.arc(this.x, this.y, this.radius * 1.7, 0, Math.PI * 2, false);
       GameArea.ctx.fill();
-        // ctx.fillStyle = 'red';
-        // ctx.beginPath();
-        // ctx.arc(this.x, this.y, this.radius * 1.4, 0, Math.PI * 2, false);
-        // ctx.fill();
-        // ctx.fillStyle = "orange";
-        // ctx.beginPath();
-        // ctx.arc(this.x, this.y, this.radius * 1.1, 0, Math.PI * 2, false);
-        // ctx.fill();
-        // ctx.fillStyle = "yellow";
-        // ctx.beginPath();
-        // ctx.arc(this.x, this.y, this.radius * 0.8, 0, Math.PI * 2, false);
-        // ctx.fill();
-        // ctx.fillStyle = "white";
-        // ctx.beginPath();
-        // ctx.arc(this.x, this.y, this.radius * 0.5, 0, Math.PI * 2, false);
-        // ctx.fill();
+
     }
 
     // draw the thruster

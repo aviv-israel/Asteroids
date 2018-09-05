@@ -17,7 +17,7 @@ class ShotBySpaceship extends Shot {
     GameArea.ctx.fill();
   }
 
-  drawEplosion () {
+  drawExplosion () {
     GameArea.ctx.fillStyle = 'orangered';
     GameArea.ctx.beginPath();
     GameArea.ctx.arc(this.x, this.y, spaceship.radius * 0.75, 0, Math.PI * 2, false);
@@ -36,7 +36,7 @@ class ShotBySpaceship extends Shot {
     if (this.explodeTime === 0)
       this.draw();
     else
-      this.drawEplosion();
+      this.drawExplosion();
   }
 
 }

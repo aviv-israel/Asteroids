@@ -31,6 +31,10 @@ class Game{ //// TODO: cancle static - real object
     Sound.creatSoundList();
     gamestat = new GameStats();
     spaceship = new Spaceship();
+    const s = new Saucer(200,200,1);
+    components.set(s.id,s);
+    const s2 = new Saucer(200,200,2);
+    components.set(s2.id,s2);
     createAsteroidBelt();
   }
 
@@ -161,6 +165,28 @@ class Game{ //// TODO: cancle static - real object
 // }
 
 
+  static cdShotAttacker(attacker) {
+    if (attacker instanceof Attacker){
+      //check if attacker hit by shot of spaceship
+      components.forEach( (cShoot) => {
+        if (cShoot instanceof ShotBySpaceship &&
+           cShoot.isHit(attacker.x, attacker.y, attacker.radius)){
+          attacker.brewingUp();
+          cShoot.explode();
+        }
+      });
+    }
+  }
+
+  // check colison between spaceship and attackers
+  static cdSpaceshipAttacker(attacker) {
+    if ((attacker instanceof Attacker) &&
+      (spaceship.isCollision(attacker.x, attacker.y, attacker.radius))){
+      attacker.brewingUp();
+      spaceship.explode();
+    }
+  }
+
   static updateAll () {
     GameArea.clear();
     Game.drawFooterText();
@@ -194,6 +220,7 @@ class Game{ //// TODO: cancle static - real object
         });
 
         break;
+
       case GAME_STP_ON:
         // User Interaction
         (GameArea.keys && GameArea.keys[39]) ? spaceship.rotateRight():
@@ -206,24 +233,9 @@ class Game{ //// TODO: cancle static - real object
         components.forEach( (c) => c.newPos() );
 
         //Colision Detection //// FIXME: refactoring with colision function
-        components.forEach( (cAsteroid) => {
-          if (cAsteroid instanceof Asteroid){
-            //check if astroid hit by shot
-            components.forEach( (cShoot) => {
-              if (cShoot instanceof Shot && cShoot.isHit(cAsteroid.x, cAsteroid.y, cAsteroid.radius)){
-                // destroy the asteroid and activate the laser explosion
-                cAsteroid.brewingUp();
-                cShoot.explode();
-              }
-            });
-
-            //check if astroid hit the spaceship
-            if (spaceship.isCollision(cAsteroid.x, cAsteroid.y, cAsteroid.radius)){
-              console.log('astroid hit the spaceship');
-              cAsteroid.brewingUp();
-              spaceship.explode();
-            }
-          }
+        components.forEach( (cAttacker) => {
+          Game.cdShotAttacker(cAttacker);
+          Game.cdSpaceshipAttacker(cAttacker);
         });
 
         // Render
