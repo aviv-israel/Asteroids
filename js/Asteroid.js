@@ -15,9 +15,8 @@ class Asteroid extends Attacker {
 
   constructor (x, y, r) {
     let angle = Math.random() * Math.PI * 2;
-    super(ROID_SIZE / 2,ROID_SIZE / 2,x,y,0,angle);
+    super(ROID_SIZE / 2,ROID_SIZE / 2,x,y,0,angle,r);
     this.offs = [];
-    this.radius = r; //ROID_SIZE / 2;
     this.vert = Math.floor(Math.random() * (ROID_VERT + 1) + ROID_VERT / 2);
     this.xv = Math.random() * ROID_SPD / GameArea.FPS * (Math.random() < 0.5 ? 1 : -1);
     this.yv = Math.random() * ROID_SPD / GameArea.FPS * (Math.random() < 0.5 ? 1 : -1);
@@ -58,26 +57,6 @@ class Asteroid extends Attacker {
   }
 
 
-  relocate () {
-    // handle asteroid edge of screen
-    if (this.x < 0 - this.radius) {
-      this.x = GameArea.canvas.width + this.radius;
-    } else if (this.x > GameArea.canvas.width + this.radius) {
-      this.x = 0 - this.radius
-    }
-    if (this.y < 0 - this.radius) {
-      this.y = GameArea.canvas.height + this.radius;
-    } else if (this.y > GameArea.canvas.height + this.radius) {
-      this.y = 0 - this.radius
-    }
-  }
-
-  newPos () {
-    this.x += this.xv;
-    this.y += this.yv;
-    this.relocate();
-  }
-
   drawAsteroid () {
     GameArea.ctx.strokeStyle = ROID_DEF_COL;
     GameArea.ctx.lineWidth = spaceship.radius / 10;
@@ -102,21 +81,10 @@ class Asteroid extends Attacker {
 
   //this function handle the drawing of the component.
   updateDisplay () {
-
     this.drawAsteroid();
 
-    if (ROID_DEBUG_MODE) {
-      //center dot
-      GameArea.ctx.fillStyle = 'red';
-      GameArea.ctx.fillRect(this.x - 1, this.y - 1, 2, 2);
-
-      // show asteroid's collision circle
-      GameArea.ctx.strokeStyle = 'lime';
-      GameArea.ctx.beginPath();
-      GameArea.ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
-      GameArea.ctx.stroke();
-    }
-
+    if (ROID_DEBUG_MODE)
+      this.drawDebug();
   }
 
 }
