@@ -1,10 +1,10 @@
-/* global Spaceship,Shot,Attacker,Asteroid,GameArea  */
+/* global Spaceship,Shot,Attacker,Asteroid,GameArea,Game  */
 
-
+let game;
 
 document.addEventListener('DOMContentLoaded',() => {
   console.log('start game');
-  const game =new Game();
+  game = new Game();
   Game.init();
 
 

@@ -4,7 +4,7 @@ const COLOR_WHITE = '#EDF2F4',
   GAME_STP_OVER_FONT_SIZE =  '60px',
   GAME_FOOTER_FONT_SIZE =  '22px',
   GAME_STP_SAVE_FONT_SIZE =  '60px',
-  GAME_STP_OVER_DUR =  0.2,
+  GAME_STP_OVER_DUR =  2,
   GAME_STP_PRE = 1, // pre enter to game step
   GAME_STP_READY = 2, // ready to begin the game step
   GAME_STP_ON = 3, // the game on step
@@ -20,11 +20,10 @@ const components = new Map(); // // TODO: make this static property
 
 class Game{ //// TODO: cancle static - real object
 
-  // constructor () {
-  //   // this._step = 1;
-  //   // this.gameOverDuration = Math.ceil(GAME_STP_OVER_DUR * GameArea.FPS);
-  //
-  // }
+  constructor () {
+    this._step = 1;
+    this.gameOverDuration = Math.ceil(GAME_STP_OVER_DUR * GameArea.FPS);
+  }
 
 
   static init () {
@@ -86,24 +85,31 @@ class Game{ //// TODO: cancle static - real object
     if (Game.gameOverDuration > 0) {
       Game.drawGameOverText();
       components.forEach( (c) => c.updateDisplay() );
-      --gameOverDuration;
+      --this.gameOverDuration;
     } else {
-      turnStepSave();
+      this.turnStepSave();
     }
   }
 
   static turnStepSave () {
     Game.step = GAME_STP_SAVE;
-    GameArea.ctx.font = `${GAME_STP_SAVE_FONT_SIZE} ${FONT_NAME}`;
-    GameArea.ctx.fillStyle = 'white';
-    GameArea.ctx.textAlign = 'center';
-    GameArea.ctx.fillText('YOUR SCORE BLE BJBJ HHHHJHNJNN   BJHJKN JHJKJNB  JBJHN  JGJ JH JHJNMBBBBBB',
-      GameArea.canvas.width * 0.5,
-      GameArea.canvas.height * 0.2);
   }
 
   static drawSaveText () {
+    GameArea.ctx.font = `${GAME_STP_SAVE_FONT_SIZE} ${FONT_NAME}`;
+    GameArea.ctx.fillStyle = 'white';
+    GameArea.ctx.textAlign = 'start';
+    GameArea.ctx.fillText(
+      'YOUR SCORE IS ONE OF THE TEN BEST',
+      GameArea.canvas.width * 0.15,
+      GameArea.canvas.height * 0.2);
+    console.log('drawSaveText');
 
+    GameArea.ctx.fillText(
+      'PLEASE ENTER YOR NAME',
+      GameArea.canvas.width * 0.15,
+      GameArea.canvas.height * 0.3);
+    console.log('drawSaveText');
   }
 
   static listOfScore () {
@@ -119,6 +125,40 @@ class Game{ //// TODO: cancle static - real object
       GameArea.canvas.width * 0.5,
       GameArea.canvas.height * 0.93);
   }
+//
+//   static addInput(x, y) {
+//
+//     let input = document.createElement('input');
+//
+//     input.type = 'text';
+//     input.style.position = 'fixed';
+//     input.style.left = (x - 4) + 'px';
+//     input.style.top = (y - 4) + 'px';
+//
+//     input.onkeydown = handleEnter;
+//
+//     document.body.appendChild(input);
+//
+//     input.focus();
+//
+//     hasInput = true;
+// }
+//
+//   static handleEnter(e) {
+//     let keyCode = e.keyCode;
+//     if (keyCode === 13) {
+//       Game.drawText(this.value, parseInt(this.style.left, 10), parseInt(this.style.top, 10));
+//       document.body.removeChild(this);
+//       //hasInput = false;
+//     }
+// }
+//
+//   static drawText(txt, x, y) {
+//     GameArea.ctx.textBaseline = 'top';
+//     GameArea.ctx.textAlign = 'left';
+//     GameArea.ctx.font = `${GAME_STP_SAVE_FONT_SIZE} ${FONT_NAME}`;
+//     GameArea.ctx.fillText(txt, x - 4, y - 4);
+// }
 
 
   static updateAll () {
@@ -140,7 +180,8 @@ class Game{ //// TODO: cancle static - real object
         if ((GameArea.keys && GameArea.keys[39]) ||
         (GameArea.keys && GameArea.keys[37]) ||
         (GameArea.keys && GameArea.keys[38]) ||
-        (GameArea.keys && GameArea.keys[32]) )
+        (GameArea.keys && GameArea.keys[32]) ||
+        (GameArea.keys && GameArea.keys[13]) )
           Game.turnStepOn();
 
         // Draw the text
@@ -191,15 +232,14 @@ class Game{ //// TODO: cancle static - real object
 
         break;
       case GAME_STP_OVER:
-        Game.drawGameOverText();
-        components.forEach( (c) => c.updateDisplay() );
-        //GameArea.stop();
-        //setTimeout(console.log('hd'), 6000);
-        console.log('testtttttt');
+        Game.drawGameOver();
         break;
 
       case GAME_STP_SAVE:
-        Gane.drawSaveText();
+        Game.drawSaveText();
+        gamestat.updateDisplay();
+        //Game.addInput(GameArea.canvas.width * 0.5, GameArea.canvas.height * 0.7);
+
 
         break;
       default:

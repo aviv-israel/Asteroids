@@ -1,4 +1,4 @@
-
+/* global Game */
 const _canvas = document.createElement('canvas');
 const _ctx = _canvas.getContext('2d');
 const _FPS = 30; //frames per second
@@ -38,7 +38,7 @@ class GameArea {
     window.addEventListener('scroll', (e) => {
       console.dir(e);
       console.dir(document.documentElement.scrollTop);
-      if (e.timeStamp >70 && Game.isStepPre){
+      if (e.timeStamp >70 && Game.isStepPre()){
         this.canvas.classList.add('is-active');
         Game.turnStepReady();
       }
