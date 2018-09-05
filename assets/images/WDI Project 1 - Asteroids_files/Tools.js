@@ -15,15 +15,6 @@ class Tool {
     return blinkOn;
   }
 
-  static numOfAstroids () {
-    let sum = 0;
-    components.forEach( c =>{
-      if (c instanceof Asteroid)
-        ++sum
-    });
-    return sum;
-  }
-
 
 
 }

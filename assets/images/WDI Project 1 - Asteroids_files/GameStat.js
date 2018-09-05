@@ -10,7 +10,6 @@ class GameStats {
     this._score = 0;
     this._lives = INIT_SPACESHIP_LIVES;
     this._isAddedLive = false;
-    this._level = 0;
   }
 
   addPoint (points) {
@@ -37,23 +36,10 @@ class GameStats {
     }
   }
 
-
-  checkMoveNewLevel () {
-    // new level when no more asteroids
-    if (Tool.numOfAstroids === 0) {
-      this.level++;
-      this.newLevel();
-    }
-  }
-
-  newLevel () {
-    //music.setAsteroidRatio(1);
-    //generateAsteroids(); //// TODO:
-  }
-
   updateDisplayScore () {
     GameArea.ctx.font = `${FONT_SIZE} ${FONT_NAME}`;
     GameArea.ctx.fillStyle = 'white';
+    //GameArea.ctx.textAlign = 'center';
     GameArea.ctx.fillText(this._score === 0 ? '00' : this._score,
       GameArea.canvas.width * 0.07,
       GameArea.canvas.height * 0.07);
@@ -73,7 +59,6 @@ class GameStats {
   }
 
   updateDisplay () {
-    this.checkMoveNewLevel();
     this.updateDisplayScore();
     this.upadateDisplayLive();
 
