@@ -73,9 +73,14 @@ class GameStats {
         'white');
     }
   }
+  newPos() {
+    this.checkMoveNewLevel();
+    if (Saucer.isTimeToGenerateSaucer())
+      Saucer.generateSaucer();
+  }
 
   updateDisplay () {
-    this.checkMoveNewLevel();
+
     this.updateDisplayScore();
     this.upadateDisplayLive();
 

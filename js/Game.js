@@ -4,7 +4,7 @@ const COLOR_WHITE = '#EDF2F4',
   GAME_STP_OVER_FONT_SIZE =  '60px',
   GAME_FOOTER_FONT_SIZE =  '22px',
   GAME_STP_SAVE_FONT_SIZE =  '60px',
-  GAME_STP_OVER_DUR =  2,
+  GAME_STP_OVER_DUR =  4,
   GAME_STP_PRE = 1, // pre enter to game step
   GAME_STP_READY = 2, // ready to begin the game step
   GAME_STP_ON = 3, // the game on step
@@ -40,7 +40,7 @@ class Game{ //// TODO: cancle static - real object
 
   static resetGame () {
     components.clear();
-    //// TODO: add play class (GameStat)
+    gamestat = new GameStats();
   }
 
   static isStepPre () {
@@ -87,13 +87,15 @@ class Game{ //// TODO: cancle static - real object
       GameArea.canvas.width * 0.5,
       GameArea.canvas.height * 0.3);
   }
+
   static drawGameOver () {
     if (Game.gameOverDuration > 0) {
       Game.drawGameOverText();
       components.forEach( (c) => c.updateDisplay() );
       --this.gameOverDuration;
     } else {
-      this.turnStepSave();
+      this.turnStepReady()
+      //this.turnStepSave();
     }
   }
 
@@ -210,6 +212,7 @@ class Game{ //// TODO: cancle static - real object
 
         // Positional Logic
         components.forEach( (c) => c.newPos() );
+        gamestat.newPos();
 
         //Colision Detection //// FIXME: refactoring with colision function
         components.forEach( (c) => {

@@ -1,4 +1,4 @@
-const SCR_SPD = 100, // max starting speed of asteroids in pixels per second
+const SCR_SPD = 100, // max starting speed of saucer in pixels per second
   SCR_S_SIZE = 1,
   SCR_L_SIZE = 2,
   SCR_S_RADIUS = 16,
@@ -9,7 +9,8 @@ const SCR_SPD = 100, // max starting speed of asteroids in pixels per second
   SCR_L_PNT = 200, // Point for hiting in large asteroid
   SCR_DEF_COL = '#EDF2F4',// Astroid default color //'slategrey' // TODO: to think witch color better
   SCR_DEBUG_MODE = false,
-  SCR_FIRE_TIME = 0.7;// Duration between fire - per second
+  SCR_FIRE_TIME = 0.7;// Duration between fire - per second (1=every second)
+  SCR_GENERATE_TIME = 3;//Duration between check if is it the random time to generate
 
 
 const scrImgS = new Image();
@@ -58,10 +59,9 @@ class Saucer extends Attacker {
   }
 
   isTimeFire () {
-
     if (this.fireTime === 0) {
       this.fireTime = SCR_FIRE_TIME * GameArea.FPS;
-      this.s ===  SCR_S_SIZE ? soundList.get('saucerSmall').play() : soundList.get('saucerBig').play();// // TODO: to put in another function
+      //this.s ===  SCR_S_SIZE ? soundList.get('saucerSmall').play() : soundList.get('saucerBig').play();// // TODO: to put in another function
       return true;
     }
     --this.fireTime;
@@ -81,9 +81,31 @@ class Saucer extends Attacker {
   updateDisplay () {
     this.drawSaucer();
 
-
     if (SCR_DEBUG_MODE)
       this.drawDebug();
   }
 
+  static isTimeToGenerateSaucer() {
+    if (Saucer.generateTime === 0) {
+      Saucer.generateTime = SCR_GENERATE_TIME  * GameArea.FPS;
+      return Math.random() < gamestat.level / 10 ? true  : false;
+      //return true;
+    }
+    --Saucer.generateTime;
+    return false;
+  }
+
+  static generateSaucer() {
+    let x, y,s;
+    // random Saucer location (not touching spaceship)
+    do {
+      x = Math.floor(Math.random() * GameArea.canvas.width);
+      y = Math.floor(Math.random() * GameArea.canvas.height);
+      s = Math.random() < gamestat.level ? SCR_S_SIZE : SCR_L_SIZE;
+    } while (distBetweenPoints(spaceship.x, spaceship.y, x, y) < SCR_L_RADIUS * 2 + spaceship.radius);
+    const ns = new Saucer(x, y, s);
+    components.set(ns.id, ns);
+  }
+
 }
+Saucer.generateTime = 0;

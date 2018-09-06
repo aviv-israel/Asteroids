@@ -14,7 +14,7 @@ class Tool {
     --blinkTime;
     return blinkOn;
   }
-
+  // return the sum of tne Astroids in the play
   static numOfAstroids () {
     let sum = 0;
     components.forEach( c =>{
