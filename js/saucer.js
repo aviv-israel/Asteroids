@@ -9,7 +9,8 @@ const SCR_SPD = 100, // max starting speed of saucer in pixels per second
   SCR_L_PNT = 200, // Point for hiting in large asteroid
   SCR_DEF_COL = '#EDF2F4',// Astroid default color //'slategrey' // TODO: to think witch color better
   SCR_DEBUG_MODE = false,
-  SCR_FIRE_TIME = 0.7;// Duration between fire - per second (1=every second)
+  SCR_FIRE_TIME = 0.7,// Duration between fire - per second (1=every second)
+  SCR_ALERT_SOUND_TIME = 0.6,// Duration between alert soubd - per second (1=every second)
   SCR_GENERATE_TIME = 3;//Duration between check if is it the random time to generate
 
 
@@ -30,6 +31,7 @@ class Saucer extends Attacker {
     this.color = SCR_DEF_COL;
     this.brewingupTime = 0;
     this.fireTime = 0;
+    this.sounAlertTime = 0;
   }
 
   brewingUp (){
@@ -61,12 +63,22 @@ class Saucer extends Attacker {
   isTimeFire () {
     if (this.fireTime === 0) {
       this.fireTime = SCR_FIRE_TIME * GameArea.FPS;
-      //this.s ===  SCR_S_SIZE ? soundList.get('saucerSmall').play() : soundList.get('saucerBig').play();// // TODO: to put in another function
+      // this.s ===  SCR_S_SIZE ? soundList.get('saucerSmall').play() : soundList.get('saucerBig').play();// // TODO: to put in another function
       return true;
     }
     --this.fireTime;
     return false;
   }
+
+
+  isTimeAlertSound () {
+    if (this.sounAlertTime === 0) {
+      this.sounAlertTime = SCR_ALERT_SOUND_TIME * GameArea.FPS;
+      return true;
+    }
+    --this.sounAlertTime;
+    return false;
+ }
 
   newPos () {
     super.newPos();
@@ -74,6 +86,8 @@ class Saucer extends Attacker {
       console.log('isfiretime');
       this.fire();
     }
+    if (this.isTimeAlertSound())
+      this.s ===  SCR_S_SIZE ? soundList.get('saucerSmall').play() : soundList.get('saucerBig').play();
 
   }
 
@@ -89,7 +103,6 @@ class Saucer extends Attacker {
     if (Saucer.generateTime === 0) {
       Saucer.generateTime = SCR_GENERATE_TIME  * GameArea.FPS;
       return Math.random() < gamestat.level / 10 ? true  : false;
-      //return true;
     }
     --Saucer.generateTime;
     return false;

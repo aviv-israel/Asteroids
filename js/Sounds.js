@@ -29,7 +29,7 @@ class Sound {
   }
 
   play () {
-    if (Sound.isActive)
+    if (Sound.isActive && Game.isStepOn())
       this.Sound.play();
   }
 

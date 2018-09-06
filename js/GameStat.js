@@ -2,7 +2,9 @@ const INIT_SPACESHIP_LIVES = 3,
   SCORE_EXSTRA_SPACESHIP = 10000,
   FONT_NAME = 'Hyperspace',
   FONT_SIZE = '50px',
-  LIVE_SPACESHIP_SIZE = 8;
+  LIVE_SPACESHIP_SIZE = 8,
+  PLY_BIT_LOW_TIME = 1,
+  PLY_BIT_HIGH_TIME = 0.7;
 
 
 class GameStats {
@@ -12,7 +14,8 @@ class GameStats {
     this._isAddedLive = false;
     this.level = 0;
     this.roidsTotal;
-    this.roidsLeft
+    this.roidsLeft;
+    this.soundBitTime = 0;
   }
 
   addPoint (points) {
@@ -73,7 +76,24 @@ class GameStats {
         'white');
     }
   }
+
+  isTimeBitSound () {
+    if (this.soundBitTime === 0) {
+      this.soundBitTime = PLY_BIT_LOW_TIME * GameArea.FPS;
+      return true;
+    }
+    --this.soundBitTime;
+    return false;
+  }
+
+  bitSound () {
+    if (this.isTimeBitSound()) {
+      soundList.get('beat2').play();
+    }
+  }
+
   newPos() {
+    this.bitSound();
     this.checkMoveNewLevel();
     if (Saucer.isTimeToGenerateSaucer())
       Saucer.generateSaucer();

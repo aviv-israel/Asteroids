@@ -47,6 +47,10 @@ class Game{ //// TODO: cancle static - real object
     return GAME_STP_PRE === Game.step;
   }
 
+  static isStepOn () {
+    return GAME_STP_ON === Game.step;
+  }
+
   // display button and display to push from computer
   static turnStepReady () {
     Game.step = GAME_STP_READY;
