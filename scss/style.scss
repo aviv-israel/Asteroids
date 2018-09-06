@@ -26,8 +26,120 @@ html {
       pointer-events: auto;
     }
 
+    header {
+      position: absolute;
+      top: 0;
+      right: 0;
+      display: inline-block;
+      text-align: right;
+      height: 100px;
+      z-index: 10;
+
+      .github-icon img {
+        position: inline-block;
+        width: 40px;
+        height: 40px;
+        margin: 2rem;
+      }
+    }
+
     section {
-      
+      position: absolute;
+      top: 10vh;
+      left: 10%;
+      right:10%;
+      z-index: 10;
+      z-index: 10;
+      transition: opacity .4s ease-in-out,visibility .4s;
+
+
+      .asteroid-logo img {
+         width: 70vw;
+      }
+
+      .text-about {
+        font: 20px "American Typewriter", sans-serif;
+        //font-size: "American Typewriter", 'Ariel'
+        display: inline-block;
+        margin-left: 30%;
+        margin-right: 30%;
+      }
+      .scroll-down-icon {
+
+        margin-left: 50%;
+        margin-top: 20px;
+        width: 24px;
+        height: 24px;
+
+        border-left: 1px solid #fff;
+        border-bottom: 1px solid #fff;
+        -webkit-transform: rotate(-45deg);
+        transform: rotate(-45deg);
+        -webkit-animation: sdb04 2s infinite;
+        animation: sdb04 2s infinite;
+        box-sizing: border-box;
+      }
+      @-webkit-keyframes sdb04 {
+        0% {
+          -webkit-transform: rotate(-45deg) translate(0, 0);
+        }
+        20% {
+          -webkit-transform: rotate(-45deg) translate(-10px, 10px);
+        }
+        40% {
+          -webkit-transform: rotate(-45deg) translate(0, 0);
+        }
+      }
+      @keyframes sdb04 {
+        0% {
+          transform: rotate(-45deg) translate(0, 0);
+        }
+        20% {
+          transform: rotate(-45deg) translate(-10px, 10px);
+        }
+        40% {
+          transform: rotate(-45deg) translate(0, 0);
+        }
+      }
+
+
+    }
+
+    section.is-inactive {
+      visibility: hidden;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    footer {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      z-index: 10;
+      display: inline-block;
+
+
+
+
+      .volume {
+        display: inline-block;
+
+        .volume-icon {
+          width: 30px;
+          height: 30px;
+          margin: 1rem;
+        }
+      }
+
+      .volume.is-active .volume-icon--off {
+        display: none;
+      }
+      .volume.is-inactive .volume-icon--on {
+        display: none;
+      }
+
+
+
     }
   }
 }

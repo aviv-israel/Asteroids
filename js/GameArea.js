@@ -35,14 +35,7 @@ class GameArea {
       this.keys[e.keyCode] = false;
     });
 
-    window.addEventListener('scroll', (e) => {
-      console.dir(e);
-      console.dir(document.documentElement.scrollTop);
-      if (e.timeStamp >70 && Game.isStepPre()){
-        this.canvas.classList.add('is-active');
-        Game.turnStepReady();
-      }
-    });
+
   }
 
   static stop () {

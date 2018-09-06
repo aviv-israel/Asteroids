@@ -29,11 +29,14 @@ class Sound {
   }
 
   play () {
-    this.Sound.play();
+    if (Sound.isActive)
+      this.Sound.play();
   }
 
   stop () {
     this.Sound.pause();
   }
-
 }
+
+// Static property
+Sound.isActive = true;
