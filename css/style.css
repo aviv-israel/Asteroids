@@ -40,7 +40,7 @@ html {
     html body section .asteroid-logo img {
       width: 70vw; }
     html body section .text-about {
-      font: 20px "American Typewriter", sans-serif;
+      font: 23px "American Typewriter", sans-serif;
       display: inline-block;
       margin-left: 30%;
       margin-right: 30%; }
@@ -78,7 +78,6 @@ html {
     position: absolute;
     bottom: 0;
     left: 0;
-    z-index: 10;
     display: inline-block; }
     html body footer .volume {
       display: inline-block; }

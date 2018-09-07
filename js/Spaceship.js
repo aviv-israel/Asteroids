@@ -6,7 +6,7 @@ const SHIP_FRICTION = 0.3, // friction coefficient of space (0 = no friction, 1 
   SHIP_EXPLODE_DUR = 0.3, // duration of the ship's explosion in seconds
   SHIP_INV_DUR = 1, // duration of the ship's invisibility in seconds
   SHIP_SIZE = 30, // ship height in pixels
-  SHOT_MAX = 10, // maximum number of lasers on screen at once
+  SHOT_MAX = 7, // maximum number of lasers on screen at once
   SHIP_DEF_COL = '#EDF2F4', //Ship def color
   SHIP_DEBUG_MODE = false; // Show bounds and logs
 

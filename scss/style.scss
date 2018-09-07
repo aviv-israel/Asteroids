@@ -10,8 +10,7 @@ html {
   body {
 
     canvas {
-      //border: 1px solid #123;
-      //background-color: #123;
+
       filter: blur(18px);
       -webkit-filter: blur(6px);
       transition: filter .10s ease-out;
@@ -58,7 +57,7 @@ html {
       }
 
       .text-about {
-        font: 20px "American Typewriter", sans-serif;
+        font: 23px "American Typewriter", sans-serif;
         //font-size: "American Typewriter", 'Ariel'
         display: inline-block;
         margin-left: 30%;
@@ -115,7 +114,7 @@ html {
       position: absolute;
       bottom: 0;
       left: 0;
-      z-index: 10;
+      //z-index: 10;
       display: inline-block;
 
 
