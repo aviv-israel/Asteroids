@@ -30,7 +30,7 @@ You control your spaceship and dodging from the asteroid and destroy them. Also,
 The controlling by the spaceship using a series of keys:
 -  arrow right key  >  - Rotate right
 - arrow left key <  - Rotate left
-- arrow top key  ^  - Thrust
+- arrow up key  ^  - Thrust
 - space key  - Fire
 
 
@@ -42,7 +42,7 @@ When you start the game, your spaceship will be in the middle of the screen. Hea
 
  In addition, you have to contend with large and small saucers. the small saucers will begin to appear after 10,000 points.
 
-
+<img width="1680" alt="screen shot 2018-09-07 at 13 33 07" src="https://user-images.githubusercontent.com/33804499/45221016-0b61aa80-b2a8-11e8-86ea-0cdb99c7a479.png">
 
 The player wins points in every hit on an asteroid or saucer according to the following way:
 
@@ -63,7 +63,7 @@ Keep in mind a couple of things when shooting:
 
 ### Process
 
-In the first stage I planned how the game was going to look, this step required understanding how the original game worked precisely, what technologies could be used to build the game and the class structure of the game.
+In the first stage, I planned how the game was going to look, this step required understanding how the original game worked precisely, what technologies could be used to build the game and the class structure of the game.
 
 In the second stage, I set my goals to MVP to make sure that the technology I chose was suitable for building the game.
 
@@ -79,9 +79,9 @@ At the development stage I developed the following order:
 
 ### Challenges
 
-One of the challenges in designing and building the game is to understand how the original game works behind the scenes and looks as similar as possible to the original game of Atari.
+One of the challenges in the building of the game is to understand how the original game works behind the scenes and how to make the game similar to the original game of Atari.
 
-Another challenge is to work with a canvas technology that requires drawing each object in a vector way.
+Another challenge is to work with a canvas technology, that requires drawing each object in a vector way.
 
 ### Wins
 
