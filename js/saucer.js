@@ -1,19 +1,21 @@
+
+// Parameters
 const SCR_SPD = 100, // max starting speed of saucer in pixels per second
-  SCR_S_SIZE = 1,
-  SCR_L_SIZE = 2,
-  SCR_S_RADIUS = 16,
-  SCR_L_RADIUS = 28,
+  SCR_S_SIZE = 1, // paramter for small size saucer
+  SCR_L_SIZE = 2, // paramter for large size saucer
+  SCR_S_RADIUS = 16,// default radius of small saucer
+  SCR_L_RADIUS = 28, // default radius of large saucer
   SCR_S_IMG = 'assets/images/icon-saucer-small.png',
   SCR_L_IMG = 'assets/images/icon-saucer.png',
-  SCR_S_PNT = 1000, // Point for hiting in small asteroid
-  SCR_L_PNT = 200, // Point for hiting in large asteroid
-  SCR_DEF_COL = '#EDF2F4',// Astroid default color //'slategrey' // TODO: to think witch color better
-  SCR_DEBUG_MODE = false,
+  SCR_S_PNT = 1000, // Point for hiting in small saucer
+  SCR_L_PNT = 200, // Point for hiting in large saucer
+  SCR_DEF_COL = '#EDF2F4',// Astroid default color //'slategrey'
+  SCR_DEBUG_MODE = false, // to eneter to debug mode (true = debug mode)
   SCR_FIRE_TIME = 0.7,// Duration between fire - per second (1=every second)
   SCR_ALERT_SOUND_TIME = 0.6,// Duration between alert soubd - per second (1=every second)
   SCR_GENERATE_TIME = 3;//Duration between check if is it the random time to generate
 
-
+// Images
 const scrImgS = new Image();
 scrImgS.src = SCR_S_IMG;
 const scrImgL = new Image();
@@ -83,7 +85,6 @@ class Saucer extends Attacker {
   newPos () {
     super.newPos();
     if (this.isTimeFire()) {
-      console.log('isfiretime');
       this.fire();
     }
     if (this.isTimeAlertSound())
@@ -114,11 +115,13 @@ class Saucer extends Attacker {
     do {
       x = Math.floor(Math.random() * GameArea.canvas.width);
       y = Math.floor(Math.random() * GameArea.canvas.height);
-      s = Math.random() < gamestat.level ? SCR_S_SIZE : SCR_L_SIZE;
+      s = Math.random() < gamestat.level / 10 ? SCR_S_SIZE : SCR_L_SIZE;
     } while (distBetweenPoints(spaceship.x, spaceship.y, x, y) < SCR_L_RADIUS * 2 + spaceship.radius);
     const ns = new Saucer(x, y, s);
     components.set(ns.id, ns);
   }
 
 }
+
+// Static property
 Saucer.generateTime = 0;

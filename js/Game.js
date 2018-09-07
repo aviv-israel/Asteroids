@@ -40,6 +40,8 @@ class Game{ //// TODO: cancle static - real object
 
   static resetGame () {
     components.clear();
+    spaceship = new Spaceship();
+    components.set(spaceship.id,spaceship);
     gamestat = new GameStats();
   }
 

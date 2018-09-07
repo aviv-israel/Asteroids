@@ -1,4 +1,5 @@
 /* global Component, Attacker  */
+
 const ROID_JAG = 0.4, // jaggedness of the asteroids (0 = none, 1 = lots)
   ROID_NUM = 5, // starting number of asteroids
   ROID_SIZE = 100, // starting size of asteroids in pixels
