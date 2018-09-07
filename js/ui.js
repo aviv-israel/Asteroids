@@ -18,8 +18,6 @@ class GameArea {
 
 
   static start () {
-
-
     this.canvas.width = window.innerWidth - window.innerWidth * 0.01 ;//1280;
     this.canvas.height = window.innerHeight -window.innerHeight * 0.02;//820;
     this.context = this.ctx;
