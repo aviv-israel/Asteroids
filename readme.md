@@ -17,32 +17,42 @@
 ![Codémon Logo](/css/images/CODEMON-logo.png)
 
 ### Game overview
-Codémon is a simplified version of the 1996 Gameboy game Pokémon Red/Blue.
-Players select and control one of three Codémon and battle them against each
-other.
+Asteroids is an arcade space shooter released in 1979 by Atari, Inc. The object of the game is to maneuver your spaceship through space, dodging and destroying asteroids and saucers.
+
+ The object of the game is to destroy all the asteroids on the screen. However, when you shoot an asteroid, it breaks into smaller pieces, which must also be destroyed.
+
 
 ### Game Instructions
-1. Players start in the bedroom of the original character from the Pokémon games.
-They can move around using the keyboard arrow keys. When they walk over to the
-other character who is sitting on the computer after a short animation the main
-game begins.
-![screenshot1](/screenshots/screenshot1.png)
+Asteroids is a two-dimensional vector shooter.
+You control your spaceship and dodging from the asteroid and destroy them. Also, saucer appears periodically and must be dealt with as well.
 
-2. Once at the main screen players enter their names and click the 'Fight' button.
-To play the one player game click on the 'Play against the computer button'.
-![screenshot2](/screenshots/screenshot2.png)
 
-3. The player is then taken to the Codémon selection screen where they can choose
-the character they would like to control.
-![screenshot3](/screenshots/screenshot3.png)
+The controlling by the spaceship using a series of keys:
+-  arrow right key  >  - Rotate right
+- arrow left key <  - Rotate left
+- arrow top key  ^  - Thrust
+- space key  - Fire
 
-4. After a short animation the battle begins. Players take it in turns to click
-on their Codémon's moves.
-![screenshot6](/screenshots/screenshot6.png)
+![<keyboard picture>](/css/images/CODEMON-logo.png)
 
-5. Once one of the Codémon's health reaches 0 it faints and the other player is
-the winner.
-![screenshot5](/screenshots/screenshot5.png)
+
+The playing field consists of your spaceship, floating asteroids, and the occasional alien taking shots at you. You control the spaceship to avoid collisions and to blast obstacles. You start with **3 spaceships**. On the normal machine set up, you earn a free spaceship **every 10,000 points**.
+
+When you start the game, your spaceship will be in the middle of the screen. Heading toward your spaceship will be anywhere five large asteroids. Your job is to blast those rocks. However, * when you blast them, they **break up into 2 medium asteroids**. Blasting a **medium asteroid gives you 2 small asteroids**.*
+
+ In addition, you have to contend with large and small saucers. the small saucers will begin to appear after 10,000 points.
+
+The player wins points in every hit on an asteroid or saucer according to the following way:
+
+
+| Picture|Attacker            | Points  |
+| -------------------|:-------------:| -----:|
+| ![icon-l-asteroid](https://user-images.githubusercontent.com/33804499/45213793-7ef7bd80-b290-11e8-8a2f-7903fd4894d8.png) | Large Asteroid | 20 Points |
+| ![icon-m-asteroid](https://user-images.githubusercontent.com/33804499/45213832-9e8ee600-b290-11e8-9081-ec635ff2b233.png) |  Medium Asteroid   | 50 Points|
+|![icon-s-asteroid](https://user-images.githubusercontent.com/33804499/45213855-ae0e2f00-b290-11e8-8fea-e66bb7d7ef5f.png)|  Small Asteroid    |    100 Points |
+|![icon-saucer](https://user-images.githubusercontent.com/33804499/45213902-ced68480-b290-11e8-99e5-e74f6ca128e0.png) |  Large Saucer     |    200 Points |
+| ![icon-saucer-small](https://user-images.githubusercontent.com/33804499/45213869-b9f9f100-b290-11e8-94d7-113cbd563c5a.png) |   Small Saucer    |   1000 Points |
+
 
 ### Process
 

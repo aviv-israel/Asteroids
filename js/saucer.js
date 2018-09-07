@@ -115,7 +115,7 @@ class Saucer extends Attacker {
     do {
       x = Math.floor(Math.random() * GameArea.canvas.width);
       y = Math.floor(Math.random() * GameArea.canvas.height);
-      s = Math.random() < gamestat.level / 10 ? SCR_S_SIZE : SCR_L_SIZE;
+      s = gamestat.score > 10000 && Math.random() >0.4 ? SCR_S_SIZE : SCR_L_SIZE;
     } while (distBetweenPoints(spaceship.x, spaceship.y, x, y) < SCR_L_RADIUS * 2 + spaceship.radius);
     const ns = new Saucer(x, y, s);
     components.set(ns.id, ns);
