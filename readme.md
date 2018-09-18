@@ -36,7 +36,7 @@ The controlling by the spaceship using a series of keys:
 
 The playing field consists of your spaceship, floating asteroids, and the occasional alien taking shots at you. You control the spaceship to avoid collisions and to blast obstacles. You start with **3 spaceships**. On the normal machine set up, you earn a free spaceship **every 10,000 points**.
 
-When you start the game, your spaceship will be in the middle of the screen. Heading toward your spaceship will be anywhere five large asteroids. Your job is to blast those rocks. However, * when you blast them, they **break up into 2 medium asteroids**. Blasting a **medium asteroid gives you 2 small asteroids**.*
+When you start the game, your spaceship will be in the middle of the screen. Heading toward your spaceship will be anywhere 7 large asteroids. Your job is to blast those rocks. However, * when you blast them, they **break up into 2 medium asteroids**. Blasting a **medium asteroid gives you 2 small asteroids**.*
  <img width="1680" alt="screen with bigsaucer" src="https://user-images.githubusercontent.com/33804499/45215331-17903c80-b295-11e8-869e-93ce7fbb1659.png">
 
 
@@ -89,7 +89,7 @@ Learning of canvas technology, how it works and how to correctly use technology 
 
 ## Future features
 
-- Mobile support - Displays on-screen goiks to control the spaceship
+- Mobile support - Displays on-screen joystick to control the spaceship
 - Adding an option to save the results locally or on DB.
 - Added an option to login.
 - Added an additional UI option that is innovative and colorful.

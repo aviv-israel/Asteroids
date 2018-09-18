@@ -1,7 +1,7 @@
 /* global Component, Attacker  */
 
 const ROID_JAG = 0.4, // jaggedness of the asteroids (0 = none, 1 = lots)
-  ROID_NUM = 5, // starting number of asteroids
+  ROID_NUM = 7, // starting number of asteroids
   ROID_SIZE = 100, // starting size of asteroids in pixels
   ROID_SPD = 50, // max starting speed of asteroids in pixels per second
   ROID_VERT = 10, // average number of vertices on each asteroid
@@ -33,7 +33,7 @@ class Asteroid extends Attacker {
     // split the asteroid in two if necessary
     if (this.radius === Math.ceil(ROID_SIZE / 2)) { // large asteroid
       soundList.get('bangLarge').play();
-      gamestat.addPoint(ROID_L_PNT);
+      player.addPoint(ROID_L_PNT);
       const as1 = new Asteroid (this.x, this.y, Math.ceil(ROID_SIZE / 4));
       components.set(as1.id,as1);
       const as2 = new Asteroid (this.x, this.y, Math.ceil(ROID_SIZE / 4));
@@ -41,7 +41,7 @@ class Asteroid extends Attacker {
 
     } else if (this.radius === Math.ceil(ROID_SIZE / 4)) { // medium asteroid
       soundList.get('bangMedium').play();
-      gamestat.addPoint(ROID_M_PNT);
+      player.addPoint(ROID_M_PNT);
       const as1 = new Asteroid (this.x, this.y, Math.ceil(ROID_SIZE / 8));
       components.set(as1.id,as1);
       const as2 = new Asteroid (this.x, this.y, Math.ceil(ROID_SIZE / 8));
@@ -49,12 +49,12 @@ class Asteroid extends Attacker {
 
     } else {
       soundList.get('bangSmall').play();
-      gamestat.addPoint(ROID_S_PNT);
+      player.addPoint(ROID_S_PNT);
     }
 
     // destroy the asteroid
     components.delete(this.id);
-    --gamestat.roidsLeft;
+    --player.roidsLeft;
 
   }
 
@@ -92,10 +92,10 @@ class Asteroid extends Attacker {
   static generateAsteroids() {
 
     let x, y,r;
-    gamestat.roidsTotal = (ROID_NUM + gamestat.level) * 7;
-    gamestat.roidsLeft = gamestat.roidsTotal;
-    console.log('generateAsteroids' + gamestat.level);
-    for (var i = 0; i < ROID_NUM + gamestat.level; i++) {
+    player.roidsTotal = (ROID_NUM + player.level) * 7;
+    player.roidsLeft = player.roidsTotal;
+    console.log('generateAsteroids' + player.level);
+    for (var i = 0; i < ROID_NUM + player.level; i++) {
       // random asteroid location (not touching spaceship)
       do {
         x = Math.floor(Math.random() * GameArea.canvas.width);

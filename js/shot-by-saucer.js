@@ -7,5 +7,4 @@ class ShotBySaucer extends Shot {
     super(0, 0, SHOT_SAUCER_COL, saucerX, saucerY, SHOT_SAUCER_VEL, angle);
   }
 
-
 }

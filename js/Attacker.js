@@ -3,7 +3,7 @@
 class Attacker extends Component{
   constructor(width, height, x, y, velocity, angle,radius) {
     super(width, height, x, y, velocity, angle);
-    this.radius = radius; //ROID_SIZE / 2;
+    this.radius = radius;
 
   }
 

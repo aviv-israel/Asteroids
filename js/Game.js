@@ -12,11 +12,9 @@ const COLOR_WHITE = '#EDF2F4',
   GAME_STP_SAVE = 5,  // keep the score and the name step
   GAME_STP_SSCORE = 6; // show score step
 
-let spaceship,gamestat; // TODO: make this property  (static?) and change the name of gamestart to play
+let spaceship,player; // TODO: make this property  (static?) and change the name of gamestart to play
 
 const components = new Map(); // // TODO: make this static property
-
-
 
 class Game{ //// TODO: cancle static - real object
 
@@ -29,7 +27,7 @@ class Game{ //// TODO: cancle static - real object
   static init () {
     GameArea.start();
     Sound.creatSoundList();
-    gamestat = new GameStats();
+    player = new Player();
     spaceship = new Spaceship();
     const s = new Saucer(200,200,1);
     components.set(s.id,s);
@@ -42,7 +40,7 @@ class Game{ //// TODO: cancle static - real object
     components.clear();
     spaceship = new Spaceship();
     components.set(spaceship.id,spaceship);
-    gamestat = new GameStats();
+    player = new Player();
   }
 
   static isStepPre () {
@@ -218,7 +216,7 @@ class Game{ //// TODO: cancle static - real object
 
         // Positional Logic
         components.forEach( (c) => c.newPos() );
-        gamestat.newPos();
+        player.newPos();
 
         //Colision Detection //// FIXME: refactoring with colision function
         components.forEach( (c) => {
@@ -228,7 +226,7 @@ class Game{ //// TODO: cancle static - real object
         });
 
         // Render
-        gamestat.updateDisplay();
+        player.updateDisplay();
         components.forEach( (c) => c.updateDisplay() );
 
         break;
@@ -238,7 +236,7 @@ class Game{ //// TODO: cancle static - real object
 
       case GAME_STP_SAVE:
         Game.drawSaveText();
-        gamestat.updateDisplay();
+        player.updateDisplay();
         //Game.addInput(GameArea.canvas.width * 0.5, GameArea.canvas.height * 0.7);
 
 

@@ -13,7 +13,7 @@ const SCR_SPD = 100, // max starting speed of saucer in pixels per second
   SCR_DEBUG_MODE = false, // to eneter to debug mode (true = debug mode)
   SCR_FIRE_TIME = 0.7,// Duration between fire - per second (1=every second)
   SCR_ALERT_SOUND_TIME = 0.6,// Duration between alert soubd - per second (1=every second)
-  SCR_GENERATE_TIME = 3;//Duration between check if is it the random time to generate
+  SCR_GENERATE_TIME = 2; //Duration between check if is it the random time to generate - (3 - every 3 seconds)
 
 // Images
 const scrImgS = new Image();
@@ -38,12 +38,12 @@ class Saucer extends Attacker {
 
   brewingUp (){
     if (this.s === SCR_S_SIZE){
-      gamestat.addPoint(SCR_S_PNT);
-      console.log('gamestat.addPoint(SCR_S_PNT);');
+      player.addPoint(SCR_S_PNT);
+      console.log('player.addPoint(SCR_S_PNT);');
 
     } else if (this.s === SCR_L_SIZE){
-      gamestat.addPoint(SCR_L_PNT);
-      console.log('gamestat.addPoint(SCR_L_PNT);');
+      player.addPoint(SCR_L_PNT);
+      console.log('player.addPoint(SCR_L_PNT);');
     }
 
     // destroy the saucer
@@ -103,7 +103,7 @@ class Saucer extends Attacker {
   static isTimeToGenerateSaucer() {
     if (Saucer.generateTime === 0) {
       Saucer.generateTime = SCR_GENERATE_TIME  * GameArea.FPS;
-      return Math.random() < gamestat.level / 10 ? true  : false;
+      return Math.random() < player.level / 10 ? true  : false;
     }
     --Saucer.generateTime;
     return false;
@@ -115,7 +115,7 @@ class Saucer extends Attacker {
     do {
       x = Math.floor(Math.random() * GameArea.canvas.width);
       y = Math.floor(Math.random() * GameArea.canvas.height);
-      s = gamestat.score > 10000 && Math.random() >0.4 ? SCR_S_SIZE : SCR_L_SIZE;
+      s = player.score > 10000 && Math.random() >0.4 ? SCR_S_SIZE : SCR_L_SIZE;
     } while (distBetweenPoints(spaceship.x, spaceship.y, x, y) < SCR_L_RADIUS * 2 + spaceship.radius);
     const ns = new Saucer(x, y, s);
     components.set(ns.id, ns);

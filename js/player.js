@@ -7,7 +7,7 @@ const INIT_SPACESHIP_LIVES = 3,
   PLY_BIT_HIGH_TIME = 0.7;
 
 
-class GameStats {
+class Player {
   constructor() {
     this._score = 0;
     this._lives = INIT_SPACESHIP_LIVES;

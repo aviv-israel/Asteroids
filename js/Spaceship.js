@@ -37,7 +37,7 @@ class Spaceship extends Component {
 
       // reset the ship after the explosion has finished
       if (this.explodeTime === 0) {
-        gamestat.decriseLive();
+        player.decriseLive();
       }
     } else {
       this.angle += this.moveAngle;

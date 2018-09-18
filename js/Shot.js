@@ -1,7 +1,7 @@
 /* global Component,GameArea  */
 const SHOT_DIST = 0.4, // max distance laser can travel as fraction of screen width
   SHOT_EXPLODE_DUR = 0.01, // duration of the lasers' explosion in seconds
-  SHOT_VEL = 20; // velocity of shot in pixels per second
+  SHOT_VEL = 20, // velocity of shot in pixels per second
   SHOT_SIZE = 2;
 
 class Shot extends Component {
