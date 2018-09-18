@@ -1,4 +1,4 @@
-# WDI-Project1
+# ASTEROIDS
 # General Assembly Project 1 : Simple front-end game
 
 ## Goal: To create the classic arcade game **ASTEROIDS** by HTML5
