@@ -23,6 +23,5 @@ class Component {
       (this.y < 0 - marginGameArea) ||
       (this.x > GameArea.canvas.width + marginGameArea) ||
       (this.y > GameArea.canvas.height + marginGameArea);
-
   }
 }

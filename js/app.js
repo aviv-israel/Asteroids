@@ -2,7 +2,6 @@
 
 const game = new Game();
 
-
 document.addEventListener('DOMContentLoaded',() => {
 
   // Init the game
@@ -36,12 +35,7 @@ document.addEventListener('DOMContentLoaded',() => {
       volume.classList.remove('is-inactive');
       volume.classList.add('is-active');
     }
-
-
   });
-
-
-
 
   // Functions
   const changeToStyleStepReady = () => {

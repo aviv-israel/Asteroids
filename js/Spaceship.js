@@ -72,7 +72,6 @@ class Spaceship extends Component {
     this.isThrusting = false;
     this.thrust.x -= SHIP_FRICTION * this.thrust.x / GameArea.FPS;
     this.thrust.y -= SHIP_FRICTION * this.thrust.y / GameArea.FPS;
-    //this.velocity = acceleration / GameArea.FPS;
   }
 
   fire () {
@@ -81,7 +80,6 @@ class Spaceship extends Component {
       const s = new ShotBySpaceship();
       components.set(s.id, s);
     }
-
     // prevent further shooting
     this.isCanShot = false;
   }
@@ -102,6 +100,7 @@ class Spaceship extends Component {
   explode () {
     this.explodeTime = Math.ceil(SHIP_EXPLODE_DUR * GameArea.FPS);
   }
+
   relocate (){
     // handle edge of screen
     if (this.x < 0 - this.radius)
@@ -113,7 +112,6 @@ class Spaceship extends Component {
       this.y = GameArea.canvas.height + this.radius;
     else if (this.y > GameArea.canvas.height + this.radius)
       this.y = 0 - this.radius;
-
   }
 
   static draw (x = this.x, y = this.y, a = this.angle, r = this.radius, col = this.color) {
@@ -182,7 +180,6 @@ class Spaceship extends Component {
     GameArea.ctx.closePath();
     GameArea.ctx.fill();
     GameArea.ctx.stroke();
-
   }
 
   isBlinkOn () {
@@ -221,15 +218,11 @@ class Spaceship extends Component {
       GameArea.ctx.beginPath();
       GameArea.ctx.arc(this.x, this.y, this.radius * 1.7, 0, Math.PI * 2, false);
       GameArea.ctx.fill();
-
     }
 
     // draw the thruster
     if (this.isThrusting && !this.isExploding() && this.isBlinkOn) {
       this.updateDisplayThruster();
     }
-
   }
-
-
 }

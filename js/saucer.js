@@ -55,7 +55,6 @@ class Saucer extends Attacker {
     components.set(sauc.id, sauc);
   }
 
-
   drawSaucer () {
     this.s === SCR_S_SIZE ?
       GameArea.ctx.drawImage(scrImgS, this.x-scrImgS.width/2, this.y-scrImgS.height/2):
@@ -72,7 +71,6 @@ class Saucer extends Attacker {
     return false;
   }
 
-
   isTimeAlertSound () {
     if (this.sounAlertTime === 0) {
       this.sounAlertTime = SCR_ALERT_SOUND_TIME * GameArea.FPS;
@@ -80,7 +78,7 @@ class Saucer extends Attacker {
     }
     --this.sounAlertTime;
     return false;
- }
+  }
 
   newPos () {
     super.newPos();
@@ -89,7 +87,6 @@ class Saucer extends Attacker {
     }
     if (this.isTimeAlertSound())
       this.s ===  SCR_S_SIZE ? soundList.get('saucerSmall').play() : soundList.get('saucerBig').play();
-
   }
 
 
@@ -120,7 +117,6 @@ class Saucer extends Attacker {
     const ns = new Saucer(x, y, s);
     components.set(ns.id, ns);
   }
-
 }
 
 // Static property

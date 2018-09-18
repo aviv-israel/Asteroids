@@ -41,9 +41,6 @@ class Shot extends Component {
 
       this.relocate();
     }
-
-
-    //console.log(`newpos ${this.id} ${this.x} ${this.y} ${this.angle}`);
   }
 
   relocate () {
@@ -57,7 +54,6 @@ class Shot extends Component {
       this.y = GameArea.canvas.height;
     else if (this.y > GameArea.canvas.height)
       this.y = 0;
-
   }
 
   draw () {
@@ -66,7 +62,6 @@ class Shot extends Component {
     GameArea.ctx.arc(this.x, this.y, SHOT_SIZE, 0, Math.PI * 2, false);
     GameArea.ctx.fill();
   }
-
 
   explode () {
     this.explodeTime = Math.ceil(SHOT_EXPLODE_DUR * GameArea.FPS);
@@ -87,12 +82,10 @@ class Shot extends Component {
     GameArea.ctx.fill();
   }
 
-
   updateDisplay () {
     if (this.explodeTime === 0)
       this.draw();
     else
       this.drawExplosion();
   }
-
 }

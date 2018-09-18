@@ -5,7 +5,6 @@ let blinkTime = 0,
 
 class Tool {
 
-
   static isBlinkOn () {
     if (blinkTime === 0){
       blinkTime = Math.ceil(DUR_BLINK_ON * GameArea.FPS);
@@ -14,6 +13,7 @@ class Tool {
     --blinkTime;
     return blinkOn;
   }
+
   // return the sum of tne Astroids in the play
   static numOfAstroids () {
     let sum = 0;
@@ -23,12 +23,7 @@ class Tool {
     });
     return sum;
   }
-
-
-
 }
-
-
 
 const distBetweenPoints = (x1, y1, x2, y2) =>
   Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));

@@ -8,7 +8,7 @@ const ROID_JAG = 0.4, // jaggedness of the asteroids (0 = none, 1 = lots)
   ROID_S_PNT = 100, // Point for hiting in small asteroid
   ROID_M_PNT = 50, // Point for hiting in medium asteroid
   ROID_L_PNT = 20, // Point for hiting in large asteroid
-  ROID_DEF_COL = '#EDF2F4',// Astroid default color //'slategrey' // TODO: to think witch color better
+  ROID_DEF_COL = '#EDF2F4',// Astroid default color
   ROID_DEBUG_MODE = false;
 
 
@@ -90,7 +90,6 @@ class Asteroid extends Attacker {
   }
 
   static generateAsteroids() {
-
     let x, y,r;
     player.roidsTotal = (ROID_NUM + player.level) * 7;
     player.roidsLeft = player.roidsTotal;

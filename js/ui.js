@@ -32,8 +32,6 @@ class GameArea {
     window.addEventListener('keyup', (e) => {
       this.keys[e.keyCode] = false;
     });
-
-
   }
 
   static stop () {
@@ -48,6 +46,4 @@ class GameArea {
     this.stop();
     this.canvas.parentNode.removeChild(this.canvas);
   }
-
-
 }

@@ -6,7 +6,6 @@ const INIT_SPACESHIP_LIVES = 3,
   PLY_BIT_LOW_TIME = 1,
   PLY_BIT_HIGH_TIME = 0.7;
 
-
 class Player {
   constructor() {
     this._score = 0;
@@ -100,10 +99,8 @@ class Player {
   }
 
   updateDisplay () {
-
     this.updateDisplayScore();
     this.upadateDisplayLive();
-
   }
 
 }

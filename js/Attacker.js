@@ -4,7 +4,6 @@ class Attacker extends Component{
   constructor(width, height, x, y, velocity, angle,radius) {
     super(width, height, x, y, velocity, angle);
     this.radius = radius;
-
   }
 
   brewingUp () {
@@ -42,5 +41,4 @@ class Attacker extends Component{
     this.y += this.yv;
     this.relocate();
   }
-
 }

@@ -23,7 +23,6 @@ class Game{ //// TODO: cancle static - real object
     this.gameOverDuration = Math.ceil(GAME_STP_OVER_DUR * GameArea.FPS);
   }
 
-
   static init () {
     GameArea.start();
     Sound.creatSoundList();
@@ -74,13 +73,11 @@ class Game{ //// TODO: cancle static - real object
     Game.resetGame();
     components.set(spaceship.id, spaceship);
     Asteroid.generateAsteroids();
-
   }
 
   static turnStepOver () {
     console.log('game over');
     Game.step = GAME_STP_OVER;
-
   }
 
   static drawGameOverText () {
@@ -127,8 +124,6 @@ class Game{ //// TODO: cancle static - real object
   static listOfScore () {
 
   }
-
-
 
   static drawFooterText () {
     GameArea.ctx.font = `${GAME_FOOTER_FONT_SIZE} ${FONT_NAME}`;
@@ -237,7 +232,6 @@ class Game{ //// TODO: cancle static - real object
       case GAME_STP_SAVE:
         Game.drawSaveText();
         player.updateDisplay();
-        //Game.addInput(GameArea.canvas.width * 0.5, GameArea.canvas.height * 0.7);
 
 
         break;
@@ -258,9 +252,6 @@ Game.gameOverDuration = Math.ceil(GAME_STP_OVER_DUR * GameArea.FPS);
 
 
 //////////////////////////////////////////
-
-
-
 
 
 function createAsteroidBelt() {
