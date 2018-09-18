@@ -43,5 +43,4 @@ document.addEventListener('DOMContentLoaded',() => {
     section.classList.add('is-inactive');
     setTimeout(() => Game.turnStepReady(), 1000);
   }
-
 });
