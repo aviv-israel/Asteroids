@@ -91,5 +91,5 @@ Learning of canvas technology, how it works and how to correctly use technology 
 
 - Mobile support - Displays on-screen joystick to control the spaceship
 - Adding an option to save the results locally or on DB.
-- Added an option to login.
-- Added an additional UI option that is innovative and colorful.
+- Adding an option to login.
+- Adding an additional UI option that is innovative and colorful.
