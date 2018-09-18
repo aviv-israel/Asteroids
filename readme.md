@@ -1,5 +1,5 @@
 # ASTEROIDS
-# General Assembly Project 1 : Simple front-end game
+(General Assembly Project 1 : Simple front-end game)
 
 ## Goal: To create the classic arcade game **ASTEROIDS** by HTML5
 
